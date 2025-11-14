@@ -1,0 +1,35 @@
+<!-- Tabler UI Dropdown Component -->
+<%
+  # Dropdown alignment
+  align_class = dropdown.align == 'right' ? 'dropdown-menu-end' : ''
+
+  # Button variant
+  button_class = "btn-#{dropdown.button_variant}"
+%>
+
+<div class="dropdown">
+  <button class="btn <%= button_class %> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <%= dropdown.label %>
+  </button>
+  <div class="dropdown-menu <%= align_class %>">
+    <% dropdown.items.each do |item| %>
+      <% case item[:type] %>
+      <% when :divider %>
+        <div class="dropdown-divider"></div>
+      <% when :header %>
+        <h6 class="dropdown-header"><%= item[:title] %></h6>
+      <% when :item %>
+        <% if item[:method] && item[:method] != :get %>
+          <%= button_to item[:title], item[:url],
+              method: item[:method],
+              class: "dropdown-item #{'active' if item[:active]} #{'disabled' if item[:disabled]}",
+              disabled: item[:disabled] %>
+        <% else %>
+          <%= link_to item[:title], item[:url],
+              class: "dropdown-item #{'active' if item[:active]} #{'disabled' if item[:disabled]}",
+              disabled: item[:disabled] %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

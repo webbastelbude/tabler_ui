@@ -1,0 +1,54 @@
+<%
+  # Button variant (primary, secondary, success, warning, danger, info, light, dark)
+  variant = button.respond_to?(:variant) ? button.variant : 'primary'
+
+  # Outline style
+  outline = button.respond_to?(:outline) && button.outline ? 'outline-' : ''
+
+  # Size (sm, lg)
+  size_class = button.respond_to?(:size) && button.size.present? ? "btn-#{button.size}" : ''
+
+  # Shape (pill, square)
+  shape_class = case button.respond_to?(:shape) ? button.shape : nil
+    when 'pill' then 'rounded-pill'
+    when 'square' then 'btn-square'
+    else ''
+  end
+
+  # Icon only
+  icon_class = button.respond_to?(:icon_only) && button.icon_only ? 'btn-icon' : ''
+
+  # Additional classes
+  additional_classes = button.respond_to?(:class) ? button.class : ''
+
+  # Build CSS classes
+  css_classes = [
+    'btn',
+    "btn-#{outline}#{variant}",
+    size_class,
+    shape_class,
+    icon_class,
+    additional_classes
+  ].compact.join(' ')
+
+  # URL or action
+  url = button.respond_to?(:url) ? button.url : '#'
+
+  # Method (get, post, patch, delete)
+  method = button.respond_to?(:method) ? button.method : :get
+
+  # Target
+  target = button.respond_to?(:target) ? button.target : nil
+
+  # Disabled state
+  disabled = button.respond_to?(:disabled) && button.disabled
+
+  # Link text/content
+  content = button.respond_to?(:text) ? button.text : 'Button'
+%>
+
+<% if method == :get %>
+  <%= link_to content, url, class: css_classes, target: target, disabled: disabled %>
+<% else %>
+  <%= button_to content, url, method: method, class: css_classes, target: target, disabled: disabled %>
+<% end %>

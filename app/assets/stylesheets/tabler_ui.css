@@ -1,0 +1,8 @@
+/*
+ * Tabler UI Gem Stylesheet
+ *
+ * This is the main entry point for Tabler UI styles.
+ * Import this file in your application to use Tabler UI components.
+ *
+ *= require tabler_ui/tabler
+ */
