@@ -1,0 +1,5 @@
+/*
+ * Vanillajs Datepicker Styles
+ * Loaded from CDN for importmap compatibility
+ */
+@import url('https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css');

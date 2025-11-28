@@ -1,0 +1,19 @@
+<% if status.indicator? %>
+  <%# Status Indicator (3 circles) %>
+  <span class="<%= status.status_classes %>">
+    <span class="status-indicator-circle"></span>
+    <span class="status-indicator-circle"></span>
+    <span class="status-indicator-circle"></span>
+  </span>
+<% elsif status.standalone? %>
+  <%# Standalone Status Dot %>
+  <span class="<%= status.status_classes %>"></span>
+<% else %>
+  <%# Regular Status (with optional dot) %>
+  <span class="<%= status.status_classes %>">
+    <% if status.with_dot? %>
+      <span class="<%= status.dot_classes %>"></span>
+    <% end %>
+    <%= status.text if status.has_text? %>
+  </span>
+<% end %>

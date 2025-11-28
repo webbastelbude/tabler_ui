@@ -1,0 +1,16 @@
+<% if datagrid.has_items? %>
+  <div class="datagrid">
+    <% datagrid.items.each do |item| %>
+      <div class="datagrid-item">
+        <div class="datagrid-title"><%= item[:title] %></div>
+        <div class="datagrid-content">
+          <% if item[:block] %>
+            <%= capture(&item[:block]) %>
+          <% else %>
+            <%= item[:content] %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -5,4 +5,5 @@
  * Import this file in your application to use Tabler UI components.
  *
  *= require tabler_ui/tabler
+ *= require tabler_ui/datepicker
  */

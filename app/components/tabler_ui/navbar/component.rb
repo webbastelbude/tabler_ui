@@ -26,7 +26,8 @@ module TablerUi
     class Component
       attr_accessor :brand, :items_left, :items_right
 
-      def initialize(view_context)
+      def initialize(brand: nil)
+        @brand = brand
         @items_left = NavigationGroup.new
         @items_right = NavigationGroup.new
       end
@@ -55,7 +56,7 @@ module TablerUi
         # @param title [String] Link text
         # @param url [String] Link URL
         # @param options [Hash] Additional options (active:, target:, method:)
-        def add(title, url, **options)
+        def add(title, url: nil, **options)
           @items << { title:, url:, **options }
         end
 
@@ -102,7 +103,7 @@ module TablerUi
           # @param title [String] Link text
           # @param url [String] Link URL
           # @param options [Hash] Additional options
-          def add(title, url, **options)
+          def add(title, url: nil, **options)
             @submenu << { title:, url:, **options }
           end
         end

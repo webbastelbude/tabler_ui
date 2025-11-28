@@ -29,22 +29,44 @@ module TablerUi
       Rails.logger.debug "TablerUI: Looking for #{klass_name}"
       component_class = klass_name.safe_constantize
 
-      object = args.first
-      object = OpenStruct.new(kwargs) if object.nil? && kwargs.any?
-      object = OpenStruct.new(object) if object.is_a?(Hash)
-
       if component_class
         Rails.logger.debug "TablerUI: Found #{component_class}"
-        component = component_class.new(@view)
-        inject_data(component, object) if object.present?
+
+        # Check if component expects keyword arguments (modern pattern)
+        # or view_context as first argument (legacy pattern)
+        init_method = component_class.instance_method(:initialize)
+
+        if init_method.parameters.any? { |type, _| type == :keyreq || type == :key }
+          # Modern pattern: component expects keyword arguments
+          Rails.logger.debug "TablerUI: Using keyword arguments pattern"
+          component = component_class.new(**kwargs)
+        else
+          # Legacy pattern: component expects view_context
+          Rails.logger.debug "TablerUI: Using view_context pattern"
+          object = args.first
+          object = OpenStruct.new(kwargs) if object.nil? && kwargs.any?
+          object = OpenStruct.new(object) if object.is_a?(Hash)
+
+          component = component_class.new(@view)
+          inject_data(component, object) if object.present?
+        end
       else
         Rails.logger.debug "TablerUI: Not found #{klass_name}, using partial"
+        object = args.first
+        object = OpenStruct.new(kwargs) if object.nil? && kwargs.any?
+        object = OpenStruct.new(object) if object.is_a?(Hash)
         component = object
       end
 
       if block
         slot_context = SlotContext.new(@view)
-        @view.capture(component || slot_context, &block)
+        captured_content = @view.capture(component || slot_context, &block)
+
+        # If component has a content= method and no slots were used, store the captured content
+        if component.respond_to?(:content=) && slot_context.empty?
+          component.content = captured_content
+        end
+
         render_component(name, component, slot_context)
       else
         render_component(name, component)
@@ -112,6 +134,12 @@ module TablerUi
 
     def respond_to_missing?(name, include_private = false)
       true
+    end
+
+    # Check if any slots have been defined
+    # @return [Boolean]
+    def empty?
+      @slots.empty?
     end
   end
 end
