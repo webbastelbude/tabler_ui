@@ -40,8 +40,8 @@
           '#'
         end
 
-  # Method (get, post, patch, delete)
-  method = button.respond_to?(:method) ? button.method : :get
+  # Method (get, post, patch, delete) - use http_method to avoid conflict with Object#method
+  http_method = button.respond_to?(:[]) && button[:method] ? button[:method] : :get
 
   # Target
   target = button.respond_to?(:target) ? button.target : nil
@@ -53,8 +53,8 @@
   content = button.respond_to?(:text) ? button.text : 'Button'
 %>
 
-<% if method == :get %>
+<% if http_method == :get %>
   <%= link_to content, url, class: css_classes, target: target, disabled: disabled %>
 <% else %>
-  <%= button_to content, url, method: method, class: css_classes, target: target, disabled: disabled %>
+  <%= button_to content, url, method: http_method, class: css_classes, target: target, disabled: disabled %>
 <% end %>
