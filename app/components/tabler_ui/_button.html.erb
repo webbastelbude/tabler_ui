@@ -31,8 +31,14 @@
     additional_classes
   ].compact.join(' ')
 
-  # URL or action
-  url = button.respond_to?(:url) ? button.url : '#'
+  # URL or action (supports both :url and :to)
+  url = if button.respond_to?(:url) && button.url.present?
+          button.url
+        elsif button.respond_to?(:to) && button.to.present?
+          button.to
+        else
+          '#'
+        end
 
   # Method (get, post, patch, delete)
   method = button.respond_to?(:method) ? button.method : :get

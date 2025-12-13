@@ -60,12 +60,8 @@ module TablerUi
 
       if block
         slot_context = SlotContext.new(@view)
-        captured_content = @view.capture(component || slot_context, &block)
-
-        # If component has a content= method and no slots were used, store the captured content
-        if component.respond_to?(:content=) && slot_context.empty?
-          component.content = captured_content
-        end
+        # Always use slot_context for the block so slots are captured properly
+        @view.capture(slot_context, &block)
 
         render_component(name, component, slot_context)
       else
