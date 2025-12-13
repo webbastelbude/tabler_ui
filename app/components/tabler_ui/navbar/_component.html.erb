@@ -16,13 +16,21 @@
             </a>
             <div class="dropdown-menu">
               <% item[:submenu].each do |sub| %>
-                <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
+                <% if sub[:method].present? && sub[:method] != :get %>
+                  <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
+                <% else %>
+                  <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", target: sub[:target] %>
+                <% end %>
               <% end %>
             </div>
           </li>
         <% else %>
           <li class="nav-item <%= 'active' if item[:active] %>">
-            <%= link_to item[:title], item[:url], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
+            <% if item[:method].present? && item[:method] != :get %>
+              <%= button_to item[:title], item[:url], method: item[:method], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
+            <% else %>
+              <%= link_to item[:title], item[:url], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
+            <% end %>
           </li>
         <% end %>
       <% end %>
@@ -38,18 +46,18 @@
             </a>
             <div class="dropdown-menu">
               <% item[:submenu].each do |sub| %>
-                <% if sub[:method] == :post %>
+                <% if sub[:method].present? && sub[:method] != :get %>
                   <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
                 <% else %>
-                  <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
+                  <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", target: sub[:target] %>
                 <% end %>
               <% end %>
             </div>
           </li>
         <% else %>
           <li class="nav-item <%= 'active' if item[:active] %>">
-            <% if item[:method] == :post %>
-              <%= button_to item[:title], item[:url], method: :post, class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
+            <% if item[:method].present? && item[:method] != :get %>
+              <%= button_to item[:title], item[:url], method: item[:method], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
             <% else %>
               <%= link_to item[:title], item[:url], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
             <% end %>
