@@ -19,15 +19,25 @@
       <% when :header %>
         <h6 class="dropdown-header"><%= item[:title] %></h6>
       <% when :item %>
+        <%
+          item_content = capture do
+            if item[:icon]
+              concat render("tabler_ui/icon/component", icon: OpenStruct.new(icon: item[:icon]))
+              concat " "
+            end
+            concat item[:title]
+          end
+          item_class = "dropdown-item #{item[:class]} #{'active' if item[:active]} #{'disabled' if item[:disabled]}".strip
+          item_data = item[:data] || {}
+        %>
         <% if item[:method] && item[:method] != :get %>
-          <%= button_to item[:title], item[:url],
-              method: item[:method],
-              class: "dropdown-item #{'active' if item[:active]} #{'disabled' if item[:disabled]}",
-              disabled: item[:disabled] %>
+          <%= button_to item[:url], method: item[:method], class: item_class, disabled: item[:disabled], data: item_data do %>
+            <%= item_content %>
+          <% end %>
         <% else %>
-          <%= link_to item[:title], item[:url],
-              class: "dropdown-item #{'active' if item[:active]} #{'disabled' if item[:disabled]}",
-              disabled: item[:disabled] %>
+          <%= link_to item[:url], class: item_class, disabled: item[:disabled], data: item_data do %>
+            <%= item_content %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

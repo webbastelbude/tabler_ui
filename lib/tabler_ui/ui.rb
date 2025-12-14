@@ -60,10 +60,20 @@ module TablerUi
 
       if block
         slot_context = SlotContext.new(@view)
-        # Always use slot_context for the block so slots are captured properly
-        @view.capture(slot_context, &block)
 
-        render_component(name, component, slot_context)
+        # Check if component has methods like 'add', 'left', 'right', 'buttons', 'actions', 'item'
+        # If so, use the component itself for the block, otherwise use SlotContext
+        if component.respond_to?(:add) || component.respond_to?(:left) ||
+           component.respond_to?(:right) || component.respond_to?(:buttons) ||
+           component.respond_to?(:actions) || component.respond_to?(:item)
+          # Component has its own methods for building content
+          @view.capture(component, &block)
+          render_component(name, component, nil)
+        else
+          # Use SlotContext for slot-based content projection
+          @view.capture(slot_context, &block)
+          render_component(name, component, slot_context)
+        end
       else
         render_component(name, component)
       end
@@ -122,7 +132,11 @@ module TablerUi
     # @return [String, nil] Captured content or nil
     def method_missing(name, *args, &block)
       if block_given?
-        @slots[name] = @view_context.capture(&block)
+        # Capture the block content - this properly handles <%= %> outputs
+        content = @view_context.capture(&block)
+        @slots[name] = content
+        # Return empty string to avoid output in the capture context
+        ""
       else
         @slots[name]
       end
@@ -136,6 +150,15 @@ module TablerUi
     # @return [Boolean]
     def empty?
       @slots.empty?
+    end
+
+    # Check if a specific slot has content
+    def present?(name = nil)
+      if name
+        @slots[name].present?
+      else
+        @slots.values.any?(&:present?)
+      end
     end
   end
 end

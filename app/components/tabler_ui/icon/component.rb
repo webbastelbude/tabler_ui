@@ -20,9 +20,19 @@ module TablerUi
 
         variant = @filled.blank? ? "outline" : "filled"
 
-        icon_path = Rails.root.join("app", "assets", "icons", variant, "#{@icon}.svg")
+        # Erst im Gem-Verzeichnis suchen, dann in der App
+        gem_icon_path = File.expand_path("../../../assets/icons/#{variant}/#{@icon}.svg", __dir__)
+        app_icon_path = Rails.root.join("app", "assets", "icons", variant, "#{@icon}.svg")
 
-        if File.exist?(icon_path)
+        icon_path = if File.exist?(gem_icon_path)
+                      gem_icon_path
+                    elsif File.exist?(app_icon_path)
+                      app_icon_path
+                    else
+                      nil
+                    end
+
+        if icon_path && File.exist?(icon_path)
           data = File.read(icon_path)
           data = add_animation_classes(data)
 
