@@ -49,12 +49,28 @@
   # Disabled state
   disabled = button.respond_to?(:disabled) && button.disabled
 
+  # Data attributes
+  data_attrs = button.respond_to?(:data) && button.data.present? ? button.data : {}
+
   # Link text/content
   content = button.respond_to?(:text) ? button.text : 'Button'
+
+  # Icon (optional, rendered before text)
+  icon_name = button.respond_to?(:icon) ? button.icon : nil
 %>
 
 <% if http_method == :get %>
-  <%= link_to content, url, class: css_classes, target: target, disabled: disabled %>
+  <%= link_to url, class: css_classes, target: target, disabled: disabled, data: data_attrs do %>
+    <% if icon_name.present? %>
+      <%= tabler_ui.icon(icon: icon_name) %>
+    <% end %>
+    <%= content %>
+  <% end %>
 <% else %>
-  <%= button_to content, url, method: http_method, class: css_classes, target: target, disabled: disabled %>
+  <%= button_to url, method: http_method, class: css_classes, target: target, disabled: disabled, data: data_attrs do %>
+    <% if icon_name.present? %>
+      <%= tabler_ui.icon(icon: icon_name) %>
+    <% end %>
+    <%= content %>
+  <% end %>
 <% end %>
