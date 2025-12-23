@@ -106,6 +106,11 @@ module TablerUi
           def add(title, url: nil, **options)
             @submenu << { title:, url:, **options }
           end
+
+          # Add a divider line between dropdown items
+          def add_divider
+            @submenu << { divider: true }
+          end
         end
       end
     end
