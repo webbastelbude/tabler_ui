@@ -18,8 +18,8 @@
   # Icon only
   icon_class = button.respond_to?(:icon_only) && button.icon_only ? 'btn-icon' : ''
 
-  # Additional classes
-  additional_classes = button.respond_to?(:class) ? button.class : ''
+  # Additional classes - use [:class] to access OpenStruct attribute, not .class method
+  additional_classes = button.respond_to?(:[]) ? button[:class].to_s : ''
 
   # Build CSS classes
   css_classes = [
@@ -57,20 +57,22 @@
 
   # Icon (optional, rendered before text)
   icon_name = button.respond_to?(:icon) ? button.icon : nil
+
+  # Render icon HTML if icon name is present
+  icon_html = if icon_name.present?
+    icon_component = TablerUi::Icon::Component.new(icon: icon_name)
+    icon_component.icon_data
+  end
 %>
 
 <% if http_method == :get %>
   <%= link_to url, class: css_classes, target: target, disabled: disabled, data: data_attrs do %>
-    <% if icon_name.present? %>
-      <%= tabler_ui.icon(icon: icon_name) %>
-    <% end %>
+    <%= raw icon_html if icon_html %>
     <%= content %>
   <% end %>
 <% else %>
   <%= button_to url, method: http_method, class: css_classes, target: target, disabled: disabled, data: data_attrs do %>
-    <% if icon_name.present? %>
-      <%= tabler_ui.icon(icon: icon_name) %>
-    <% end %>
+    <%= raw icon_html if icon_html %>
     <%= content %>
   <% end %>
 <% end %>
