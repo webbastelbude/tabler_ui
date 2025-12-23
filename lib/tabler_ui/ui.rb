@@ -104,7 +104,17 @@ module TablerUi
     # @param object [Object] The object to check
     # @return [Boolean] True if it's a component class
     def component_class?(object)
-      object.class.name.start_with?("TablerUi::") && object.class.name.demodulize == object.class.name.demodulize.camelize
+      return false if object.nil?
+      # Use Object.instance_method(:class) to get the actual Ruby class
+      # This bypasses OpenStruct's method_missing which would return the :class attribute value
+      klass = Object.instance_method(:class).bind(object).call
+      return false unless klass.respond_to?(:name)
+      klass_name = klass.name
+      return false unless klass_name.is_a?(String)
+      klass_name.start_with?("TablerUi::") && klass_name.demodulize == klass_name.demodulize.camelize
+    rescue => e
+      Rails.logger.error "component_class? error: #{e.message}, object: #{object.inspect}"
+      false
     end
 
     # Injects data into component instance variables
