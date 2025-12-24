@@ -1,0 +1,36 @@
+<%# Tabler UI Tabs Component %>
+<% if tabs.any? %>
+  <%# Tab Navigation %>
+  <ul class="<%= tabs.nav_classes %>" data-bs-toggle="tabs" role="tablist">
+    <% tabs.tabs.each do |tab| %>
+      <li class="nav-item" role="presentation">
+        <a href="#<%= tab.id %>"
+           class="nav-link<%= ' active' if tab.active %>"
+           data-bs-toggle="tab"
+           aria-selected="<%= tab.active %>"
+           role="tab">
+          <% if tab.icon.present? %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <use xlink:href="/tabler-sprite.svg#tabler-<%= tab.icon %>"/>
+            </svg>
+          <% end %>
+          <%= tab.title %>
+          <% if tab.badge.present? %>
+            <span class="badge bg-<%= tab.badge_color %>-lt ms-1"><%= tab.badge %></span>
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+
+  <%# Tab Content Panels %>
+  <div class="tab-content">
+    <% tabs.tabs.each do |tab| %>
+      <div class="tab-pane<%= ' active show' if tab.active %>"
+           id="<%= tab.id %>"
+           role="tabpanel">
+        <%= tab.content %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
