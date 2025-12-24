@@ -49,15 +49,13 @@ module TablerUi
       # @param badge [String, nil] Optional badge text
       # @param badge_color [String] Badge color (default: "blue")
       # @param active [Boolean] Whether this tab is initially active (first tab is active by default)
-      # @param block [Proc] Content block for the tab panel
+      # @param block [Proc] Content block for the tab panel (stored as proc, captured in template)
       def tab(title:, icon: nil, badge: nil, badge_color: "blue", active: nil, &block)
         @tab_counter += 1
         tab_id = "#{@id}-tab-#{@tab_counter}"
 
         # First tab is active by default unless explicitly set
         is_active = active.nil? ? @tabs.empty? : active
-
-        content = block_given? ? yield : nil
 
         @tabs << Tab.new(
           id: tab_id,
@@ -66,7 +64,7 @@ module TablerUi
           badge: badge,
           badge_color: badge_color,
           active: is_active,
-          content: content
+          content: block  # Store the block as a Proc, will be captured in template
         )
 
         # Return empty string to avoid output in capture context
