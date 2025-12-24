@@ -898,6 +898,127 @@ Für komplexeren HTML-Content:
 <% end %>
 ```
 
+## Illustration Komponente
+
+Die Illustration-Komponente rendert SVG-Illustrationen von Tabler UI inline.
+
+### Basis Verwendung
+
+```erb
+<!-- Standard (light Variante) -->
+<%= tabler_ui.illustration name: "not-found" %>
+
+<!-- Dark Variante -->
+<%= tabler_ui.illustration name: "not-found", variant: "dark" %>
+```
+
+### Mit Größenangabe
+
+Verfügbare Größen: `xs` (100px), `sm` (150px), `md` (200px), `lg` (300px), `xl` (400px), `xxl` (600px)
+
+```erb
+<%= tabler_ui.illustration name: "error", size: :md %>
+
+<!-- Oder mit expliziter Pixel-Größe -->
+<%= tabler_ui.illustration name: "error", size: 250 %>
+```
+
+### Mit Custom CSS-Klasse
+
+```erb
+<%= tabler_ui.illustration name: "search", class: "my-custom-class" %>
+```
+
+### Alle Optionen
+
+```erb
+<%= tabler_ui.illustration
+  name: "not-found",      # Name der Illustration (ohne .svg)
+  variant: "light",       # "light" oder "dark" (default: "light")
+  size: :lg,              # xs, sm, md, lg, xl, xxl oder Pixel-Wert
+  class: "custom-class"   # Zusätzliche CSS-Klassen
+%>
+```
+
+### Verfügbare Illustrationen
+
+Alle Illustrationen sind in `light` und `dark` Varianten verfügbar:
+
+**Fehler & Status:**
+- `403`, `500`, `not-found`, `error`
+
+**Personen:**
+- `boy`, `boy-and-cat`, `boy-and-laptop`, `boy-girl`, `boy-gives-flowers`
+- `boy-refresh`, `boy-with-key`, `girl-phone`, `girl-refresh`
+
+**Aktivitäten:**
+- `bicycle`, `dance`, `guitar`, `music`, `painting`, `podcast`
+- `shopping`, `weightlifting`, `kite`, `ice-skates`, `electric-scooter`
+
+**Business & Arbeit:**
+- `building`, `calendar`, `chart`, `chart-circle`, `folders`, `project`
+- `hybrid-work`, `computer-fix`, `mobile-computer`, `printer`
+
+**Kommunikation:**
+- `conversation`, `email`, `message`, `video`
+
+**Feiertage:**
+- `christmas-tree`, `christmas-gifts`, `christmas-fireplace`, `snowman`
+- `easter-bunny`, `easter-egg`, `halloween-pumpkin`
+- `valentines-day-gift`, `valentines-day-heart`, `valentines-day-love`
+- `new-year`, `new-year-2`
+
+**Sonstiges:**
+- `ai`, `archive`, `cat`, `dart`, `discount`, `fingerprint`, `flowers`
+- `ghost`, `gift`, `good-info`, `good-news`, `bad-news`, `neutral-info`
+- `icons`, `loading`, `map-destination`, `morning`, `payment`, `search`
+- `shield`, `telescope`, `tiredness`, `to-do`, `vr`, `wait`
+
+### Beispiele aus der Praxis
+
+#### 404 Fehlerseite
+
+```erb
+<div class="empty">
+  <div class="empty-img">
+    <%= tabler_ui.illustration name: "not-found", size: :lg %>
+  </div>
+  <h1 class="empty-title">Seite nicht gefunden</h1>
+  <p class="empty-subtitle text-secondary">
+    Die angeforderte Seite existiert nicht.
+  </p>
+  <%= link_to "Zur Startseite", root_path, class: "btn btn-primary" %>
+</div>
+```
+
+#### Leerer Zustand
+
+```erb
+<div class="empty">
+  <div class="empty-img">
+    <%= tabler_ui.illustration name: "search", size: :md %>
+  </div>
+  <p class="empty-title">Keine Ergebnisse gefunden</p>
+  <p class="empty-subtitle text-secondary">
+    Versuchen Sie es mit anderen Suchbegriffen.
+  </p>
+</div>
+```
+
+#### Wartungsseite
+
+```erb
+<div class="empty">
+  <div class="empty-img">
+    <%= tabler_ui.illustration name: "computer-fix", size: :xl %>
+  </div>
+  <h1 class="empty-title">Wartungsarbeiten</h1>
+  <p class="empty-subtitle text-secondary">
+    Wir sind bald wieder für Sie da.
+  </p>
+</div>
+```
+
 ## Weiterführende Ressourcen
 
 - [Tabler UI Dokumentation](https://tabler.io/)
