@@ -1019,6 +1019,191 @@ Alle Illustrationen sind in `light` und `dark` Varianten verfügbar:
 </div>
 ```
 
+## Placeholder Komponente
+
+Die Placeholder-Komponente zeigt Skeleton-Loading-Zustände für Content an.
+
+### Basis Verwendung
+
+```erb
+<!-- Text Placeholder -->
+<%= tabler_ui.placeholder type: :text, width: 9 %>
+
+<!-- Mehrere Textzeilen -->
+<%= tabler_ui.placeholder type: :text, lines: [10, 11, 8] %>
+
+<!-- Avatar Placeholder -->
+<%= tabler_ui.placeholder type: :avatar %>
+
+<!-- Bild Placeholder -->
+<%= tabler_ui.placeholder type: :image, ratio: "21x9" %>
+```
+
+### Placeholder Typen
+
+Verfügbare Typen:
+- `text` - Textzeilen-Placeholder
+- `avatar` - Avatar-Placeholder (rund oder eckig)
+- `image` - Bild-Placeholder mit Aspect Ratio
+- `button` - Button-Placeholder
+- `card` - Vollständiges Card-Skeleton
+- `list` - Listen-Element mit Avatar
+
+### Mit Animation
+
+```erb
+<!-- Glow Animation -->
+<%= tabler_ui.placeholder type: :card, animation: :glow %>
+
+<!-- Wave Animation -->
+<%= tabler_ui.placeholder type: :text, lines: [9, 10, 8], animation: :wave %>
+```
+
+### Text Placeholder
+
+```erb
+<!-- Einzelne Zeile -->
+<%= tabler_ui.placeholder type: :text, width: 9 %>
+
+<!-- Mehrere Zeilen mit verschiedenen Breiten -->
+<%= tabler_ui.placeholder type: :text, lines: [10, 11, 8, 9] %>
+
+<!-- Mit Größe (xs, sm, lg, xl) -->
+<%= tabler_ui.placeholder type: :text, width: 7, size: "lg" %>
+```
+
+### Avatar Placeholder
+
+```erb
+<!-- Standard (rund) -->
+<%= tabler_ui.placeholder type: :avatar %>
+
+<!-- Eckig -->
+<%= tabler_ui.placeholder type: :avatar, rounded: false %>
+
+<!-- Mit Größe -->
+<%= tabler_ui.placeholder type: :avatar, size: "lg" %>
+```
+
+### Image Placeholder
+
+```erb
+<!-- Standard (21x9) -->
+<%= tabler_ui.placeholder type: :image %>
+
+<!-- Mit spezifischem Ratio -->
+<%= tabler_ui.placeholder type: :image, ratio: "16x9" %>
+<%= tabler_ui.placeholder type: :image, ratio: "4x3" %>
+<%= tabler_ui.placeholder type: :image, ratio: "1x1" %>
+```
+
+### Button Placeholder
+
+```erb
+<!-- Standard -->
+<%= tabler_ui.placeholder type: :button, width: 4 %>
+
+<!-- Mit Variante -->
+<%= tabler_ui.placeholder type: :button, width: 4, variant: "primary" %>
+<%= tabler_ui.placeholder type: :button, width: 6, variant: "secondary" %>
+```
+
+### Card Placeholder
+
+```erb
+<!-- Vollständiges Card-Skeleton -->
+<%= tabler_ui.placeholder type: :card, animation: :glow %>
+
+<!-- Ohne Bild -->
+<%= tabler_ui.placeholder type: :card, show_image: false %>
+
+<!-- Ohne Button -->
+<%= tabler_ui.placeholder type: :card, show_button: false %>
+```
+
+### List Placeholder
+
+```erb
+<!-- Listen-Element mit Avatar -->
+<%= tabler_ui.placeholder type: :list %>
+
+<!-- Mit Animation -->
+<%= tabler_ui.placeholder type: :list, animation: :glow %>
+```
+
+### Alle Optionen
+
+```erb
+<%= tabler_ui.placeholder
+  type: :card,            # Placeholder-Typ (:text, :avatar, :image, :button, :card, :list)
+  width: 9,               # Spaltenbreite für Text/Button (1-12)
+  size: "lg",             # Größe (xs, sm, lg, xl)
+  animation: :glow,       # Animation (:glow, :wave)
+  ratio: "21x9",          # Aspect Ratio für Bilder (1x1, 4x3, 16x9, 21x9)
+  variant: "primary",     # Button-Variante
+  lines: [10, 11, 8],     # Array von Breiten für mehrere Textzeilen
+  rounded: true,          # Avatar abgerundet (default: true)
+  show_image: true,       # Bild in Card anzeigen (default: true)
+  show_button: true,      # Button in Card anzeigen (default: true)
+  custom_class: "my-cls"  # Zusätzliche CSS-Klassen
+%>
+```
+
+### Beispiele aus der Praxis
+
+#### Loading Card Grid
+
+```erb
+<div class="row row-cards">
+  <% 4.times do %>
+    <div class="col-3">
+      <%= tabler_ui.placeholder type: :card, animation: :glow %>
+    </div>
+  <% end %>
+</div>
+```
+
+#### Loading User Profile
+
+```erb
+<div class="card">
+  <div class="card-body py-5 text-center">
+    <div class="placeholder-glow">
+      <%= tabler_ui.placeholder type: :avatar, size: "lg" %>
+      <div class="mt-3 w-75 mx-auto">
+        <%= tabler_ui.placeholder type: :text, width: 9 %>
+        <%= tabler_ui.placeholder type: :text, lines: [10, 8], size: "xs" %>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### Loading List
+
+```erb
+<div class="card">
+  <ul class="list-group list-group-flush placeholder-glow">
+    <% 4.times do %>
+      <li class="list-group-item">
+        <%= tabler_ui.placeholder type: :list %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+```
+
+#### Loading Text Content
+
+```erb
+<div class="card">
+  <div class="card-body placeholder-glow">
+    <%= tabler_ui.placeholder type: :text, width: 9 %>
+    <%= tabler_ui.placeholder type: :text, lines: [10, 12, 11, 8, 10], size: "xs" %>
+  </div>
+</div>
+```
+
 ## Weiterführende Ressourcen
 
 - [Tabler UI Dokumentation](https://tabler.io/)
