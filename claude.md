@@ -1091,189 +1091,189 @@ Alle Illustrationen sind in `light` und `dark` Varianten verfügbar:
 </div>
 ```
 
-## Rating Komponente
+## Placeholder Komponente
 
-Die Rating-Komponente zeigt eine Stern-Bewertung an und ermöglicht Benutzern die Bewertung durch Anklicken der Sterne.
+Die Placeholder-Komponente zeigt Skeleton-Loading-Zustände für Content an.
 
 ### Basis Verwendung
 
 ```erb
-<%= tabler_ui.rating %>
+<!-- Text Placeholder -->
+<%= tabler_ui.placeholder type: :text, width: 9 %>
+
+<!-- Mehrere Textzeilen -->
+<%= tabler_ui.placeholder type: :text, lines: [10, 11, 8] %>
+
+<!-- Avatar Placeholder -->
+<%= tabler_ui.placeholder type: :avatar %>
+
+<!-- Bild Placeholder -->
+<%= tabler_ui.placeholder type: :image, ratio: "21x9" %>
 ```
 
-### Mit Name und Wert
+### Placeholder Typen
+
+Verfügbare Typen:
+- `text` - Textzeilen-Placeholder
+- `avatar` - Avatar-Placeholder (rund oder eckig)
+- `image` - Bild-Placeholder mit Aspect Ratio
+- `button` - Button-Placeholder
+- `card` - Vollständiges Card-Skeleton
+- `list` - Listen-Element mit Avatar
+
+### Mit Animation
 
 ```erb
-<%= tabler_ui.rating name: "product_rating", value: 4 %>
+<!-- Glow Animation -->
+<%= tabler_ui.placeholder type: :card, animation: :glow %>
+
+<!-- Wave Animation -->
+<%= tabler_ui.placeholder type: :text, lines: [9, 10, 8], animation: :wave %>
 ```
 
-### Mit Custom Optionen
+### Text Placeholder
 
 ```erb
-<%= tabler_ui.rating
-  options: [
-    { value: "", label: "Bewertung auswählen" },
-    { value: 5, label: "Ausgezeichnet" },
-    { value: 4, label: "Sehr gut" },
-    { value: 3, label: "Gut" },
-    { value: 2, label: "Mäßig" },
-    { value: 1, label: "Schlecht" }
-  ]
-%>
+<!-- Einzelne Zeile -->
+<%= tabler_ui.placeholder type: :text, width: 9 %>
+
+<!-- Mehrere Zeilen mit verschiedenen Breiten -->
+<%= tabler_ui.placeholder type: :text, lines: [10, 11, 8, 9] %>
+
+<!-- Mit Größe (xs, sm, lg, xl) -->
+<%= tabler_ui.placeholder type: :text, width: 7, size: "lg" %>
 ```
 
-### Größen
-
-Verfügbare Größen: `sm`, `md`, `lg`, `xl`
+### Avatar Placeholder
 
 ```erb
-<%= tabler_ui.rating size: :sm %>
-<%= tabler_ui.rating size: :md %>
-<%= tabler_ui.rating size: :lg %>
-<%= tabler_ui.rating size: :xl %>
+<!-- Standard (rund) -->
+<%= tabler_ui.placeholder type: :avatar %>
+
+<!-- Eckig -->
+<%= tabler_ui.placeholder type: :avatar, rounded: false %>
+
+<!-- Mit Größe -->
+<%= tabler_ui.placeholder type: :avatar, size: "lg" %>
 ```
 
-### Farbvarianten
-
-Sie können Tabler-Farben für die Sterne verwenden:
+### Image Placeholder
 
 ```erb
-<%= tabler_ui.rating variant: "primary" %>
-<%= tabler_ui.rating variant: "success" %>
-<%= tabler_ui.rating variant: "warning" %>
-<%= tabler_ui.rating variant: "danger" %>
-<%= tabler_ui.rating variant: "red" %>
-<%= tabler_ui.rating variant: "yellow" %>
+<!-- Standard (21x9) -->
+<%= tabler_ui.placeholder type: :image %>
+
+<!-- Mit spezifischem Ratio -->
+<%= tabler_ui.placeholder type: :image, ratio: "16x9" %>
+<%= tabler_ui.placeholder type: :image, ratio: "4x3" %>
+<%= tabler_ui.placeholder type: :image, ratio: "1x1" %>
 ```
 
-### Tooltip und Clearable
-
-Standardmäßig ist der Tooltip aktiv und das Rating kann zurückgesetzt werden:
+### Button Placeholder
 
 ```erb
-<!-- Ohne Tooltip -->
-<%= tabler_ui.rating tooltip: false %>
+<!-- Standard -->
+<%= tabler_ui.placeholder type: :button, width: 4 %>
 
-<!-- Nicht zurücksetzbar -->
-<%= tabler_ui.rating clearable: false %>
+<!-- Mit Variante -->
+<%= tabler_ui.placeholder type: :button, width: 4, variant: "primary" %>
+<%= tabler_ui.placeholder type: :button, width: 6, variant: "secondary" %>
 ```
 
-### Mit Form Builder
-
-Die Rating-Komponente kann auch mit dem FormBuilder verwendet werden:
+### Card Placeholder
 
 ```erb
-<%= tabler_form_with model: @product do |f| %>
-  <div class="mb-3">
-    <label class="form-label">Bewertung</label>
-    <%= f.input :rating, as: :rating %>
-  </div>
-  <%= f.submit "Bewertung speichern" %>
-<% end %>
+<!-- Vollständiges Card-Skeleton -->
+<%= tabler_ui.placeholder type: :card, animation: :glow %>
+
+<!-- Ohne Bild -->
+<%= tabler_ui.placeholder type: :card, show_image: false %>
+
+<!-- Ohne Button -->
+<%= tabler_ui.placeholder type: :card, show_button: false %>
+```
+
+### List Placeholder
+
+```erb
+<!-- Listen-Element mit Avatar -->
+<%= tabler_ui.placeholder type: :list %>
+
+<!-- Mit Animation -->
+<%= tabler_ui.placeholder type: :list, animation: :glow %>
 ```
 
 ### Alle Optionen
 
 ```erb
-<%= tabler_ui.rating
-  id: "my-rating",        # Custom ID (automatisch generiert wenn nicht angegeben)
-  name: "rating",          # Feldname (default: "rating")
-  value: 4,               # Vorausgewählte Bewertung
-  options: [...],           # Custom Optionen-Array (mit :value und :label)
-  required: false,          # Pflichtfeld (default: false)
-  disabled: false,          # Deaktiviert (default: false)
-  custom_class: "",        # Zusätzliche CSS-Klassen
-  size: nil,              # sm, md, lg, xl (Größe der Sterne)
-  variant: nil,           # Tabler-Farbe für Sterne (z.B. "primary", "red")
-  tooltip: true,           # Tooltip anzeigen (default: true)
-  clearable: true,         # Rating zurücksetzbar (default: true)
-  max_stars: 5           # Maximale Anzahl Sterne (default: 5)
+<%= tabler_ui.placeholder
+  type: :card,            # Placeholder-Typ (:text, :avatar, :image, :button, :card, :list)
+  width: 9,               # Spaltenbreite für Text/Button (1-12)
+  size: "lg",             # Größe (xs, sm, lg, xl)
+  animation: :glow,       # Animation (:glow, :wave)
+  ratio: "21x9",          # Aspect Ratio für Bilder (1x1, 4x3, 16x9, 21x9)
+  variant: "primary",     # Button-Variante
+  lines: [10, 11, 8],     # Array von Breiten für mehrere Textzeilen
+  rounded: true,          # Avatar abgerundet (default: true)
+  show_image: true,       # Bild in Card anzeigen (default: true)
+  show_button: true,      # Button in Card anzeigen (default: true)
+  custom_class: "my-cls"  # Zusätzliche CSS-Klassen
 %>
 ```
 
-### Stimulus Controller
-
-Der Rating Controller wird automatisch auf das Select-Element angewendet:
-
-```erb
-<select
-  data-controller="tabler-ui--rating"
-  data-tabler-ui--rating-id-value="rating-123"
-  data-tabler-ui--rating-tooltip-value="true"
-  data-tabler-ui--rating-clearable-value="true"
-  data-tabler-ui--rating-variant-value="primary"
-  data-tabler-ui--rating-size-value="lg">
-  ...
-</select>
-```
-
-Der Controller:
-- Initialisiert die `star-rating.js` Bibliothek beim Connect
-- Transformiert das Select-Element in interaktive Sterne
-- Unterstützt verschiedene Größen und Farben
-- Ermöglicht das Zurücksetzen der Bewertung (wenn `clearable: true`)
-
 ### Beispiele aus der Praxis
 
-#### Produktbewertung
+#### Loading Card Grid
+
+```erb
+<div class="row row-cards">
+  <% 4.times do %>
+    <div class="col-3">
+      <%= tabler_ui.placeholder type: :card, animation: :glow %>
+    </div>
+  <% end %>
+</div>
+```
+
+#### Loading User Profile
 
 ```erb
 <div class="card">
-  <div class="card-body">
-    <h3 class="card-title">Produkt bewerten</h3>
-    <p class="text-secondary">Wie gefällt Ihnen dieses Produkt?</p>
-    <%= tabler_ui.rating
-      name: "product[rating]",
-      value: @product.rating,
-      variant: "yellow",
-      size: :lg
-    %>
+  <div class="card-body py-5 text-center">
+    <div class="placeholder-glow">
+      <%= tabler_ui.placeholder type: :avatar, size: "lg" %>
+      <div class="mt-3 w-75 mx-auto">
+        <%= tabler_ui.placeholder type: :text, width: 9 %>
+        <%= tabler_ui.placeholder type: :text, lines: [10, 8], size: "xs" %>
+      </div>
+    </div>
   </div>
 </div>
 ```
 
-#### Service-Bewertung
+#### Loading List
 
 ```erb
-<div class="d-flex align-items-center gap-3">
-  <div>
-    <h5 class="mb-1">Kundenservice</h5>
-    <div class="text-secondary text-muted">
-      Basierend auf 128 Bewertungen
-    </div>
-  </div>
-  <%= tabler_ui.rating
-    value: 4.5,
-    variant: "success",
-    disabled: true,
-    tooltip: false
-  %>
+<div class="card">
+  <ul class="list-group list-group-flush placeholder-glow">
+    <% 4.times do %>
+      <li class="list-group-item">
+        <%= tabler_ui.placeholder type: :list %>
+      </li>
+    <% end %>
+  </ul>
 </div>
 ```
 
-#### Multiple Ratings in Form
+#### Loading Text Content
 
 ```erb
-<%= tabler_form_with model: @review do |f| %>
-  <div class="row g-3">
-    <div class="col-md-6">
-      <label class="form-label">Preis-Leistungs-Verhältnis</label>
-      <%= f.input :price_rating, as: :rating %>
-    </div>
-    <div class="col-md-6">
-      <label class="form-label">Qualität</label>
-      <%= f.input :quality_rating, as: :rating %>
-    </div>
-    <div class="col-md-6">
-      <label class="form-label">Service</label>
-      <%= f.input :service_rating, as: :rating %>
-    </div>
-    <div class="col-md-6">
-      <label class="form-label">Lieferung</label>
-      <%= f.input :delivery_rating, as: :rating %>
-    </div>
+<div class="card">
+  <div class="card-body placeholder-glow">
+    <%= tabler_ui.placeholder type: :text, width: 9 %>
+    <%= tabler_ui.placeholder type: :text, lines: [10, 12, 11, 8, 10], size: "xs" %>
   </div>
-<% end %>
+</div>
 ```
 
 ## Weiterführende Ressourcen
