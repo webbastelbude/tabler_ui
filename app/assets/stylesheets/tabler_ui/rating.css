@@ -1,0 +1,51 @@
+/*
+ * Star Rating Component Styles
+ * Bundled star-rating.js CSS
+ */
+
+@import "star-rating.css";
+
+/* Custom overrides for Tabler UI */
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.star-rating .star {
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+/* Size variants */
+.star-rating .icon-sm { width: 1rem; height: 1rem; }
+.star-rating .icon-md { width: 1.5rem; height: 1.5rem; }
+.star-rating .icon-lg { width: 2rem; height: 2rem; }
+.star-rating .icon-xl { width: 2.5rem; height: 2.5rem; }
+
+/* Color variants */
+.star-rating .text-primary { color: #206bc4; }
+.star-rating .text-success { color: #2fb344; }
+.star-rating .text-danger { color: #d63939; }
+.star-rating .text-warning { color: #f59f00; }
+.star-rating .text-info { color: #1098ad; }
+.star-rating .text-red { color: #fa5252; }
+.star-rating .text-pink { color: #cc5de8; }
+.star-rating .text-purple { color: #845ef7; }
+.star-rating .text-indigo { color: #5c7cfa; }
+.star-rating .text-cyan { color: #22b8cf; }
+.star-rating .text-teal { color: #20c997; }
+.star-rating .text-lime { color: #74b816; }
+.star-rating .text-yellow { color: #fcc419; }
+.star-rating .text-orange { color: #ff922b; }
+
+/* Hide original select element */
+select.star-rating-select {
+  display: none;
+}
+
+/* Make star rating accessible when JavaScript is disabled */
+select.star-rating-select:disabled + .star-rating {
+  opacity: 0.5;
+  pointer-events: none;
+}

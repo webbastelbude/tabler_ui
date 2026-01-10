@@ -6,4 +6,6 @@
  *
  *= require tabler_ui/tabler
  *= require tabler_ui/datepicker
+ *= require star-rating
+ *= require tabler_ui/rating
  */

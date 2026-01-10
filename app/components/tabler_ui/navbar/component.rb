@@ -69,6 +69,16 @@ module TablerUi
           @items << { title:, submenu: }
         end
 
+        # Add a dark mode toggle button
+        def dark_mode_toggle
+          @items << { dark_mode_toggle: true }
+        end
+
+        # Add a divider (vertical separator)
+        def divider
+          @items << { divider: true }
+        end
+
         def each(&block)
           @items.each(&block)
         end

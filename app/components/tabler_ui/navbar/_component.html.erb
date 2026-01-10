@@ -9,64 +9,14 @@
     <!-- Left Navigation -->
     <ul class="navbar-nav">
       <% navbar.items_left.each do |item| %>
-        <% if item[:submenu] %>
-          <li class="nav-item dropdown <%= 'active' if item[:submenu].any? { |sub| sub[:active] } %>">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-              <%= item[:title] %>
-            </a>
-            <div class="dropdown-menu">
-              <% item[:submenu].each do |sub| %>
-                <% if sub[:divider] %>
-                  <div class="dropdown-divider"></div>
-                <% elsif sub[:method].present? && sub[:method] != :get %>
-                  <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
-                <% else %>
-                  <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", target: sub[:target] %>
-                <% end %>
-              <% end %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item <%= 'active' if item[:active] %>">
-            <% if item[:method].present? && item[:method] != :get %>
-              <%= button_to item[:title], item[:url], method: item[:method], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
-            <% else %>
-              <%= link_to item[:title], item[:url], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
-            <% end %>
-          </li>
-        <% end %>
+        <%= render "tabler_ui/navbar/nav_item", item: item %>
       <% end %>
     </ul>
 
     <!-- Right Navigation -->
     <ul class="navbar-nav flex-row order-md-last ms-auto">
       <% navbar.items_right.each do |item| %>
-        <% if item[:submenu] %>
-          <li class="nav-item dropdown <%= 'active' if item[:submenu].any? { |sub| sub[:active] } %>">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-              <%= item[:title] %>
-            </a>
-            <div class="dropdown-menu">
-              <% item[:submenu].each do |sub| %>
-                <% if sub[:divider] %>
-                  <div class="dropdown-divider"></div>
-                <% elsif sub[:method].present? && sub[:method] != :get %>
-                  <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
-                <% else %>
-                  <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", target: sub[:target] %>
-                <% end %>
-              <% end %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item <%= 'active' if item[:active] %>">
-            <% if item[:method].present? && item[:method] != :get %>
-              <%= button_to item[:title], item[:url], method: item[:method], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
-            <% else %>
-              <%= link_to item[:title], item[:url], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
-            <% end %>
-          </li>
-        <% end %>
+        <%= render "tabler_ui/navbar/nav_item", item: item %>
       <% end %>
     </ul>
   </div>

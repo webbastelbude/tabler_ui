@@ -898,6 +898,78 @@ Für komplexeren HTML-Content:
 <% end %>
 ```
 
+## Dark Mode Toggle
+
+Die Dark Mode Toggle Komponente ermöglicht das Umschalten zwischen Light, Dark und System-Theme.
+
+### In der Navbar
+
+Der Toggle kann an beliebiger Stelle in der Navbar eingefügt werden:
+
+```erb
+<%= tabler_ui.navbar do |navbar| %>
+  <% navbar.brand = link_to("MyApp", root_path) %>
+  <% navbar.left do |nav| %>
+    <% nav.add "Home", url: root_path %>
+    <% nav.add "About", url: about_path %>
+  <% end %>
+  <% navbar.right do |nav| %>
+    <% nav.dark_mode_toggle %>
+    <% nav.divider %>
+    <% nav.add "Login", url: login_path %>
+  <% end %>
+<% end %>
+```
+
+Verfügbare Navbar-Items:
+- `nav.add "Title", url: path` - Normaler Link
+- `nav.dropdown "Title" do |dd| ... end` - Dropdown-Menü
+- `nav.dark_mode_toggle` - Dark Mode Umschalter
+- `nav.divider` - Vertikaler Trenner
+
+### Standalone Komponente
+
+Sie können den Toggle auch eigenständig verwenden:
+
+```erb
+<%= tabler_ui.dark_mode_toggle %>
+
+<!-- Mit Größe -->
+<%= tabler_ui.dark_mode_toggle size: :sm %>
+<%= tabler_ui.dark_mode_toggle size: :lg %>
+
+<!-- Mit Custom CSS-Klasse -->
+<%= tabler_ui.dark_mode_toggle class: "my-custom-class" %>
+```
+
+### Funktionsweise
+
+Der Toggle wechselt durch drei Modi:
+1. **Light** (Sonne-Icon) - Helles Theme
+2. **Dark** (Mond-Icon) - Dunkles Theme
+3. **System** (Monitor-Icon) - Folgt der Systemeinstellung
+
+Die Einstellung wird im `localStorage` gespeichert und bleibt beim Neuladen erhalten.
+
+### Stimulus Controller
+
+Der Dark Mode Controller kann auch manuell verwendet werden:
+
+```html
+<div data-controller="tabler-ui--dark-mode">
+  <button data-action="click->tabler-ui--dark-mode#toggle">
+    <span data-tabler-ui--dark-mode-target="light">☀️</span>
+    <span data-tabler-ui--dark-mode-target="dark" class="d-none">🌙</span>
+    <span data-tabler-ui--dark-mode-target="system" class="d-none">💻</span>
+  </button>
+</div>
+```
+
+Der Controller:
+- Setzt `data-bs-theme="dark"` oder `data-bs-theme="light"` auf `<body>`
+- Speichert die Einstellung in `localStorage` unter dem Key `theme`
+- Reagiert auf Änderungen der System-Präferenz bei "System"-Modus
+
 ## Illustration Komponente
 
 Die Illustration-Komponente rendert SVG-Illustrationen von Tabler UI inline.
@@ -1019,9 +1091,194 @@ Alle Illustrationen sind in `light` und `dark` Varianten verfügbar:
 </div>
 ```
 
+## Rating Komponente
+
+Die Rating-Komponente zeigt eine Stern-Bewertung an und ermöglicht Benutzern die Bewertung durch Anklicken der Sterne.
+
+### Basis Verwendung
+
+```erb
+<%= tabler_ui.rating %>
+```
+
+### Mit Name und Wert
+
+```erb
+<%= tabler_ui.rating name: "product_rating", value: 4 %>
+```
+
+### Mit Custom Optionen
+
+```erb
+<%= tabler_ui.rating
+  options: [
+    { value: "", label: "Bewertung auswählen" },
+    { value: 5, label: "Ausgezeichnet" },
+    { value: 4, label: "Sehr gut" },
+    { value: 3, label: "Gut" },
+    { value: 2, label: "Mäßig" },
+    { value: 1, label: "Schlecht" }
+  ]
+%>
+```
+
+### Größen
+
+Verfügbare Größen: `sm`, `md`, `lg`, `xl`
+
+```erb
+<%= tabler_ui.rating size: :sm %>
+<%= tabler_ui.rating size: :md %>
+<%= tabler_ui.rating size: :lg %>
+<%= tabler_ui.rating size: :xl %>
+```
+
+### Farbvarianten
+
+Sie können Tabler-Farben für die Sterne verwenden:
+
+```erb
+<%= tabler_ui.rating variant: "primary" %>
+<%= tabler_ui.rating variant: "success" %>
+<%= tabler_ui.rating variant: "warning" %>
+<%= tabler_ui.rating variant: "danger" %>
+<%= tabler_ui.rating variant: "red" %>
+<%= tabler_ui.rating variant: "yellow" %>
+```
+
+### Tooltip und Clearable
+
+Standardmäßig ist der Tooltip aktiv und das Rating kann zurückgesetzt werden:
+
+```erb
+<!-- Ohne Tooltip -->
+<%= tabler_ui.rating tooltip: false %>
+
+<!-- Nicht zurücksetzbar -->
+<%= tabler_ui.rating clearable: false %>
+```
+
+### Mit Form Builder
+
+Die Rating-Komponente kann auch mit dem FormBuilder verwendet werden:
+
+```erb
+<%= tabler_form_with model: @product do |f| %>
+  <div class="mb-3">
+    <label class="form-label">Bewertung</label>
+    <%= f.input :rating, as: :rating %>
+  </div>
+  <%= f.submit "Bewertung speichern" %>
+<% end %>
+```
+
+### Alle Optionen
+
+```erb
+<%= tabler_ui.rating
+  id: "my-rating",        # Custom ID (automatisch generiert wenn nicht angegeben)
+  name: "rating",          # Feldname (default: "rating")
+  value: 4,               # Vorausgewählte Bewertung
+  options: [...],           # Custom Optionen-Array (mit :value und :label)
+  required: false,          # Pflichtfeld (default: false)
+  disabled: false,          # Deaktiviert (default: false)
+  custom_class: "",        # Zusätzliche CSS-Klassen
+  size: nil,              # sm, md, lg, xl (Größe der Sterne)
+  variant: nil,           # Tabler-Farbe für Sterne (z.B. "primary", "red")
+  tooltip: true,           # Tooltip anzeigen (default: true)
+  clearable: true,         # Rating zurücksetzbar (default: true)
+  max_stars: 5           # Maximale Anzahl Sterne (default: 5)
+%>
+```
+
+### Stimulus Controller
+
+Der Rating Controller wird automatisch auf das Select-Element angewendet:
+
+```erb
+<select
+  data-controller="tabler-ui--rating"
+  data-tabler-ui--rating-id-value="rating-123"
+  data-tabler-ui--rating-tooltip-value="true"
+  data-tabler-ui--rating-clearable-value="true"
+  data-tabler-ui--rating-variant-value="primary"
+  data-tabler-ui--rating-size-value="lg">
+  ...
+</select>
+```
+
+Der Controller:
+- Initialisiert die `star-rating.js` Bibliothek beim Connect
+- Transformiert das Select-Element in interaktive Sterne
+- Unterstützt verschiedene Größen und Farben
+- Ermöglicht das Zurücksetzen der Bewertung (wenn `clearable: true`)
+
+### Beispiele aus der Praxis
+
+#### Produktbewertung
+
+```erb
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">Produkt bewerten</h3>
+    <p class="text-secondary">Wie gefällt Ihnen dieses Produkt?</p>
+    <%= tabler_ui.rating
+      name: "product[rating]",
+      value: @product.rating,
+      variant: "yellow",
+      size: :lg
+    %>
+  </div>
+</div>
+```
+
+#### Service-Bewertung
+
+```erb
+<div class="d-flex align-items-center gap-3">
+  <div>
+    <h5 class="mb-1">Kundenservice</h5>
+    <div class="text-secondary text-muted">
+      Basierend auf 128 Bewertungen
+    </div>
+  </div>
+  <%= tabler_ui.rating
+    value: 4.5,
+    variant: "success",
+    disabled: true,
+    tooltip: false
+  %>
+</div>
+```
+
+#### Multiple Ratings in Form
+
+```erb
+<%= tabler_form_with model: @review do |f| %>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Preis-Leistungs-Verhältnis</label>
+      <%= f.input :price_rating, as: :rating %>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Qualität</label>
+      <%= f.input :quality_rating, as: :rating %>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Service</label>
+      <%= f.input :service_rating, as: :rating %>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Lieferung</label>
+      <%= f.input :delivery_rating, as: :rating %>
+    </div>
+  </div>
+<% end %>
+```
+
 ## Weiterführende Ressourcen
 
 - [Tabler UI Dokumentation](https://tabler.io/)
-- [VanillaJS Datepicker Dokumentation](https://mymth.github.io/vanillajs-datepicker/)
+- [Star Rating JS Dokumentation](https://github.com/niksd1/star-rating.js)
 - [Stimulus Handbook](https://stimulus.hotwired.dev/)
 - [Rails Form Helpers Guide](https://guides.rubyonrails.org/form_helpers.html)

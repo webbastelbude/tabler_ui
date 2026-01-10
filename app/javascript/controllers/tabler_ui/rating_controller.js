@@ -1,0 +1,74 @@
+// Stimulus controller for Star Rating component
+// Uses star-rating.js library to transform select inputs into star ratings
+
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static values = {
+    id: String,
+    tooltip: { type: Boolean, default: true },
+    clearable: { type: Boolean, default: true },
+    variant: String,
+    size: String
+  }
+
+  connect() {
+    import("star-rating.js").then((module) => {
+      this.StarRating = module.default || module
+      this.initRating()
+    }).catch((error) => {
+      console.error("Failed to load star-rating.js:", error)
+    })
+  }
+
+  initRating() {
+    if (!this.StarRating) {
+      console.warn("StarRating library not loaded")
+      return
+    }
+
+    const options = {
+      tooltip: this.tooltipValue,
+      clearable: this.clearableValue,
+      stars: this.getStarsFunction()
+    }
+
+    if (this.variantValue) {
+      options.variant = this.variantValue
+    }
+
+    if (this.sizeValue) {
+      options.size = this.sizeValue
+    }
+
+    this.rating = new this.StarRating(`#${this.idValue}`, options)
+  }
+
+  getStarsFunction() {
+    return (el, item, index) => {
+      let iconClass = "icon gl-star-full"
+
+      if (this.sizeValue) {
+        iconClass += ` icon-${this.sizeValue}`
+      } else {
+        iconClass += " icon-2"
+      }
+
+      if (this.variantValue) {
+        iconClass += ` text-${this.variantValue}`
+      }
+
+      el.innerHTML = this.getStarSvg(iconClass)
+    }
+  }
+
+  getStarSvg(iconClass) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="${iconClass}"><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>`
+  }
+
+  disconnect() {
+    if (this.rating && typeof this.rating.destroy === "function") {
+      this.rating.destroy()
+    }
+  }
+}
