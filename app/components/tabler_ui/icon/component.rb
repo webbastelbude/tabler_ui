@@ -1,7 +1,7 @@
 module TablerUi
   module Icon
     class Component
-      def initialize(icon:, filled: false, color: nil, pulse: false, tada: false, rotate: false, size: nil, class: nil)
+      def initialize(icon:, filled: false, color: nil, pulse: false, tada: false, rotate: false, size: nil, class: nil, title: nil)
         @icon = icon
         @filled = filled
         @color = color
@@ -9,6 +9,7 @@ module TablerUi
         @tada = tada
         @rotate = rotate
         @size = size
+        @title = title
         @custom_class = binding.local_variable_get(:class)
       end
 
@@ -36,8 +37,11 @@ module TablerUi
           data = File.read(icon_path)
           data = add_animation_classes(data)
 
-          if @color
-            "<span class=\"text-#{@color}\">#{data}</span>"
+          # Wrap with span if color or title is present
+          if @color || @title
+            title_attr = @title.present? ? " title=\"#{ERB::Util.html_escape(@title)}\"" : ""
+            color_class = @color.present? ? " class=\"text-#{@color}\"" : ""
+            "<span#{color_class}#{title_attr}>#{data}</span>"
           else
             data
           end
