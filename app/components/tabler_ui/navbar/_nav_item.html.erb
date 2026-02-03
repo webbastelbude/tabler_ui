@@ -27,7 +27,7 @@
   </li>
 <% elsif item[:submenu] %>
   <!-- Dropdown -->
-  <li class="nav-item dropdown <%= 'active' if item[:submenu].any? { |sub| sub[:active] } %>">
+  <li class="nav-item dropdown <%= 'active' if item[:submenu].any? { |sub| sub[:url] && current_page?(sub[:url]) } %>">
     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
       <%= item[:title] %>
     </a>
@@ -36,20 +36,21 @@
         <% if sub[:divider] %>
           <div class="dropdown-divider"></div>
         <% elsif sub[:method].present? && sub[:method] != :get %>
-          <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", method: sub[:method], target: sub[:target] %>
+          <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:url] && current_page?(sub[:url])}", method: sub[:method], target: sub[:target] %>
         <% else %>
-          <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:active]}", target: sub[:target] %>
+          <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:url] && current_page?(sub[:url])}", target: sub[:target] %>
         <% end %>
       <% end %>
     </div>
   </li>
 <% else %>
   <!-- Regular Link -->
-  <li class="nav-item <%= 'active' if item[:active] %>">
+  <% active = item[:url] && current_page?(item[:url]) %>
+  <li class="nav-item <%= 'active' if active %>">
     <% if item[:method].present? && item[:method] != :get %>
-      <%= button_to item[:title], item[:url], method: item[:method], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
+      <%= button_to item[:title], item[:url], method: item[:method], class: "nav-link #{'active' if active}", target: item[:target] %>
     <% else %>
-      <%= link_to item[:title], item[:url], class: "nav-link #{'active' if item[:active]}", target: item[:target] %>
+      <%= link_to item[:title], item[:url], class: "nav-link #{'active' if active}", target: item[:target] %>
     <% end %>
   </li>
 <% end %>
