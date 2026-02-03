@@ -11,6 +11,7 @@ module TablerUi
       app.config.assets.paths << root.join('app/assets/stylesheets')
       app.config.assets.paths << root.join('app/assets/javascripts')
       app.config.assets.paths << root.join('app/assets/images')
+      app.config.assets.paths << root.join('app/javascript')
       app.config.assets.precompile += %w[
         tabler_ui.css tabler_ui.js
         tabler_ui/tabler.css tabler_ui/tabler.js
