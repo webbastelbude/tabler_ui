@@ -1,3 +1,6 @@
+<%# Authorization check: if action and subject are provided and can? is available, check permission %>
+<% authorized = ->(entry) { entry[:action].present? && entry[:subject].present? && respond_to?(:can?) ? can?(entry[:action], entry[:subject]) : true } %>
+
 <% if item[:dark_mode_toggle] %>
   <!-- Dark Mode Toggle -->
   <li class="nav-item" data-controller="tabler-ui--dark-mode">
@@ -26,24 +29,29 @@
     <span class="nav-link px-0 text-secondary">|</span>
   </li>
 <% elsif item[:submenu] %>
-  <!-- Dropdown -->
-  <li class="nav-item dropdown <%= 'active' if item[:submenu].any? { |sub| sub[:url] && current_page?(sub[:url]) } %>">
-    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-      <%= item[:title] %>
-    </a>
-    <div class="dropdown-menu">
-      <% item[:submenu].each do |sub| %>
-        <% if sub[:divider] %>
-          <div class="dropdown-divider"></div>
-        <% elsif sub[:method].present? && sub[:method] != :get %>
-          <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:url] && current_page?(sub[:url])}", method: sub[:method], target: sub[:target] %>
-        <% else %>
-          <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:url] && current_page?(sub[:url])}", target: sub[:target] %>
+  <!-- Dropdown (only show items the user is authorized to see) -->
+  <% visible_items = item[:submenu].select { |sub| sub[:divider] || authorized.call(sub) } %>
+  <% visible_items = visible_items.drop_while { |sub| sub[:divider] } %>
+  <% visible_items = visible_items.reverse.drop_while { |sub| sub[:divider] }.reverse %>
+  <% if visible_items.any? { |sub| !sub[:divider] } %>
+    <li class="nav-item dropdown <%= 'active' if visible_items.any? { |sub| sub[:url] && current_page?(sub[:url]) } %>">
+      <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+        <%= item[:title] %>
+      </a>
+      <div class="dropdown-menu">
+        <% visible_items.each do |sub| %>
+          <% if sub[:divider] %>
+            <div class="dropdown-divider"></div>
+          <% elsif sub[:method].present? && sub[:method] != :get %>
+            <%= button_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:url] && current_page?(sub[:url])}", method: sub[:method], target: sub[:target] %>
+          <% else %>
+            <%= link_to sub[:title], sub[:url], class: "dropdown-item #{'active' if sub[:url] && current_page?(sub[:url])}", target: sub[:target] %>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
-  </li>
-<% else %>
+      </div>
+    </li>
+  <% end %>
+<% elsif authorized.call(item) %>
   <!-- Regular Link -->
   <% active = item[:url] && current_page?(item[:url]) %>
   <li class="nav-item <%= 'active' if active %>">
