@@ -63,10 +63,10 @@ module TablerUi
         # Add a dropdown menu
         # @param title [String] Dropdown label
         # @yield [DropDownProxy] Dropdown items proxy
-        def dropdown(title)
+        def dropdown(title, align: nil)
           submenu = []
           yield DropDownProxy.new(submenu)
-          @items << { title:, submenu: }
+          @items << { title:, submenu:, align: }
         end
 
         # Add a dark mode toggle button

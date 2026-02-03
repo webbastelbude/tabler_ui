@@ -38,7 +38,7 @@
       <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
         <%= item[:title] %>
       </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu <%= 'dropdown-menu-end' if item[:align] == :end %>">
         <% visible_items.each do |sub| %>
           <% if sub[:divider] %>
             <div class="dropdown-divider"></div>
