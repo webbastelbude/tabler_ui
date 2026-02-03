@@ -1276,6 +1276,65 @@ Verfügbare Typen:
 </div>
 ```
 
+## Tabler Framework Version
+
+Dieses Gem basiert auf **Tabler UI v1.4.0**.
+
+### Optionale Module
+
+#### Flags Add-on
+
+Länderflaggen für internationale Anwendungen (260+ Flaggen als SVG).
+
+**Aktivierung** in `application.css`:
+```css
+/*
+ *= require tabler_ui/addons/tabler-flags
+ */
+```
+
+**Verwendung**:
+```erb
+<span class="flag flag-de"></span>
+<span class="flag flag-us"></span>
+<span class="flag flag-fr"></span>
+<span class="flag flag-gb"></span>
+```
+
+Verfügbar sind 260+ Länderflaggen als SVG-Sprites mit optimierter Performance.
+
+**Beispiele:**
+```erb
+<!-- In Navigation -->
+<%= tabler_ui.navbar do |navbar| %>
+  <% navbar.right do |nav| %>
+    <% nav.dropdown "Deutsch" do |dd| %>
+      <% dd.item link_to(content_tag(:span, "", class: "flag flag-de me-2") + "Deutsch", "#") %>
+      <% dd.item link_to(content_tag(:span, "", class: "flag flag-gb me-2") + "English", "#") %>
+      <% dd.item link_to(content_tag(:span, "", class: "flag flag-fr me-2") + "Français", "#") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<!-- In Formularen -->
+<%= f.input :country, as: :select, collection: countries, label: "Land" %>
+<span class="flag flag-<%= user.country_code.downcase %>"></span>
+```
+
+### Dark Mode Enhancement
+
+Das Gem enthält `tabler-theme.js` für erweiterte Dark Mode Funktionalität.
+Diese Bibliothek arbeitet komplementär zum bestehenden `dark_mode_controller.js`.
+
+**Automatisches Laden:**
+- `tabler-theme.js` wird automatisch mit Tabler UI geladen
+- Unterstützt `localStorage` Theme-Persistierung
+- Reagiert auf System-Präferenzen (`prefers-color-scheme`)
+
+**Integration:**
+Der bestehende Dark Mode Controller nutzt diese Funktionalität automatisch.
+Keine zusätzliche Konfiguration erforderlich.
+
 ## Weiterführende Ressourcen
 
 - [Tabler UI Dokumentation](https://tabler.io/)

@@ -47,6 +47,26 @@ And import it in your `app/javascript/application.js`:
 import "tabler_ui"
 ```
 
+### Optional: Flags Add-on
+
+For country flags in your application, add to your `app/assets/stylesheets/application.css`:
+
+```css
+/*
+ *= require tabler_ui/addons/tabler-flags
+ */
+```
+
+Usage:
+
+```erb
+<span class="flag flag-de"></span>
+<span class="flag flag-us"></span>
+<span class="flag flag-fr"></span>
+```
+
+Over 260 country flags available as SVG sprites.
+
 ### Stimulus Controllers
 
 If you want to use Tabler UI's Stimulus controllers, import them in your `app/javascript/controllers/index.js`:

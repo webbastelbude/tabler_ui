@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-02-03
+
+### Updated
+- Upgraded Tabler UI Framework from v1.2.0 to v1.4.0
+- Core CSS: 648 KB → 619 KB (optimized)
+- Core JavaScript: v1.4.0 (202 KB)
+- Star Rating JS: v4.3.0 (15 KB, unchanged version but updated build)
+- Updated CSS source maps
+
+### Added
+- Flags Add-on Module (19 KB CSS + 260 flag SVGs)
+- Tabler Theme JS (1.4 KB) for enhanced dark mode support
+- Asset paths for SVG images (flags)
+
+### Notes
+- Flags module is optional, activate with: `*= require tabler_ui/addons/tabler-flags`
+- tabler-theme.js provides enhanced dark mode support complementary to existing dark_mode_controller.js
+
+### Breaking Changes
+- Verify custom CSS overrides against new v1.4.0 variables
+- Test all components with updated Tabler UI v1.4.0
+
+## [0.1.0] - 2026-02-03
+
 ### Added
 - Initial gem structure with Rails Engine
 - Core UI dispatcher with method_missing pattern

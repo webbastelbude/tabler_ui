@@ -10,8 +10,15 @@ module TablerUi
       # Add assets to the asset pipeline
       app.config.assets.paths << root.join('app/assets/stylesheets')
       app.config.assets.paths << root.join('app/assets/javascripts')
-      app.config.assets.precompile += %w[tabler_ui.css tabler_ui.js tabler_ui/tabler.css tabler_ui/tabler.js
-                                         star-rating.css star-rating.js]
+      app.config.assets.paths << root.join('app/assets/images')
+      app.config.assets.precompile += %w[
+        tabler_ui.css tabler_ui.js
+        tabler_ui/tabler.css tabler_ui/tabler.js
+        tabler_ui/tabler-theme.js
+        star-rating.css star-rating.js
+        tabler_ui/addons/*.css
+        tabler_ui/flags/**/*.svg
+      ]
     end
 
     # Load importmap configuration for JavaScript modules
