@@ -17,6 +17,7 @@ module TablerUi
         tabler_ui/tabler.css tabler_ui/tabler.js
         tabler_ui/tabler-theme.js
         tabler_ui/datepicker.css
+        tabler_ui/navbar.css
         star-rating.css star-rating.js
         tabler_ui/addons/*.css
         tabler_ui/flags/**/*.svg

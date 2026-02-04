@@ -1,0 +1,20 @@
+/* Navbar component fixes
+ * Bootstrap's .container-fluid uses align-items: center which prevents
+ * nav items from stretching to full navbar height. This breaks Tabler's
+ * active indicator positioning (bottom: -0.25rem on .nav-item::after)
+ * which relies on items reaching the navbar bottom edge.
+ */
+
+.navbar > .container-fluid {
+    align-items: stretch;
+}
+
+.navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .navbar-nav .nav-item {
+    display: flex;
+    align-items: center;
+}
