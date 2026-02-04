@@ -2,7 +2,7 @@
 <header class="navbar navbar-expand-lg d-print-none">
   <div class="container-fluid">
     <!-- Logo/Brand -->
-    <div class="navbar-brand navbar-brand-autodark me-3">
+    <div class="navbar-brand<%= ' navbar-brand-autodark' if navbar.brand_autodark %> me-3">
       <%= navbar.brand if navbar.respond_to?(:brand) %>
     </div>
 

@@ -24,10 +24,11 @@ module TablerUi
     #     <% end %>
     #   <% end %>
     class Component
-      attr_accessor :brand, :items_left, :items_right
+      attr_accessor :brand, :brand_autodark, :items_left, :items_right
 
-      def initialize(brand: nil)
+      def initialize(brand: nil, brand_autodark: true)
         @brand = brand
+        @brand_autodark = brand_autodark
         @items_left = NavigationGroup.new
         @items_right = NavigationGroup.new
       end
