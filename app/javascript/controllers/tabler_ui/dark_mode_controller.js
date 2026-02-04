@@ -64,6 +64,8 @@ export default class extends Controller {
             isDark = this.mediaQuery.matches
         }
 
-        document.documentElement.setAttribute("data-bs-theme", isDark ? "dark" : "light")
+        const theme = isDark ? "dark" : "light"
+        document.documentElement.setAttribute("data-bs-theme", theme)
+        document.body.setAttribute("data-bs-theme", theme)
     }
 }
