@@ -21,6 +21,7 @@ module TablerUi
         star-rating.css star-rating.js
         tabler_ui/addons/*.css
         tabler_ui/flags/**/*.svg
+        controllers/tabler_ui/*.js
       ]
     end
 
