@@ -13,4 +13,8 @@ pin 'vanillajs-datepicker', to: 'https://cdn.jsdelivr.net/npm/vanillajs-datepick
 pin 'star-rating.js', to: 'tabler_ui/star-rating.js'
 
 # Pin Tabler UI Stimulus controllers
-pin_all_from File.expand_path('../app/javascript/controllers/tabler_ui', __dir__), under: 'controllers/tabler_ui'
+pin 'controllers/tabler_ui/dark_mode_controller', to: 'controllers/tabler_ui/dark_mode_controller.js'
+pin 'controllers/tabler_ui/datepicker_controller', to: 'controllers/tabler_ui/datepicker_controller.js'
+pin 'controllers/tabler_ui/dropdown_controller', to: 'controllers/tabler_ui/dropdown_controller.js'
+pin 'controllers/tabler_ui/filter_controller', to: 'controllers/tabler_ui/filter_controller.js'
+pin 'controllers/tabler_ui/rating_controller', to: 'controllers/tabler_ui/rating_controller.js'
