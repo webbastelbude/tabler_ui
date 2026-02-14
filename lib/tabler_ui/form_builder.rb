@@ -6,6 +6,12 @@ module TablerUi
 
     def input(method, options = {})
       @form_options = options
+
+      # Hidden fields render without wrapper
+      if options[:as] == :hidden
+        return hidden_field(method, merge_input_options({}, options[:input_html]))
+      end
+
       object_type = object_type_for_method(method)
 
       input_type = case object_type
@@ -21,6 +27,86 @@ module TablerUi
                             end
 
       send("#{override_input_type || input_type}_input", method, options)
+    end
+
+    # Naked input field without wrapper or label
+    def input_field(method, options = {})
+      if options[:as] == :hidden
+        return hidden_field(method, merge_input_options({}, options[:input_html]))
+      end
+
+      object_type = object_type_for_method(method)
+      input_options = merge_input_options(
+        { class: "form-control #{'is-invalid' if has_error?(method)}" },
+        options[:input_html]
+      )
+
+      case options[:as] || object_type
+      when :text then text_area(method, input_options)
+      when :boolean then check_box(method, merge_input_options({ class: 'form-check-input' }, options[:input_html]))
+      when :file then file_field(method, input_options)
+      when :select
+        collection_select(method, options[:collection], options[:value_method] || :to_s,
+                          options[:text_method] || :to_s, options,
+                          merge_input_options({ class: "form-select #{'is-invalid' if has_error?(method)}" }, options[:input_html]))
+      else
+        string_field(method, input_options)
+      end
+    end
+
+    # Association helper - detects belongs_to (select) and has_many (checkboxes)
+    def association(method, options = {})
+      if @object.class.respond_to?(:reflect_on_association)
+        reflection = @object.class.reflect_on_association(method)
+      end
+
+      if reflection
+        collection = options[:collection] || reflection.klass.all
+        label_method = options[:label_method] || options[:text_method] || :to_s
+        value_method = options[:value_method] || :id
+
+        case reflection.macro
+        when :belongs_to
+          select_options = options.merge(
+            collection: collection,
+            value_method: value_method,
+            text_method: label_method
+          )
+          foreign_key = reflection.foreign_key
+          input(foreign_key, select_options)
+        when :has_many, :has_and_belongs_to_many
+          check_options = options.merge(
+            collection: collection,
+            value_method: value_method,
+            text_method: label_method,
+            as: :check_boxes
+          )
+          input(method, check_options)
+        else
+          input(method, options)
+        end
+      else
+        # Fallback: treat as select with collection
+        input(method, options)
+      end
+    end
+
+    # Display model errors as a Tabler alert at the top of the form
+    def error_notification(message: nil)
+      return unless @object.respond_to?(:errors) && @object.errors.any?
+
+      message ||= 'Bitte überprüfen Sie die folgenden Fehler:'
+
+      tag.div(class: 'alert alert-danger mb-3', role: 'alert') do
+        safe_join [
+          tag.h4(message, class: 'alert-title'),
+          tag.div(class: 'text-secondary') do
+            tag.ul do
+              safe_join(@object.errors.full_messages.map { |msg| tag.li(msg) })
+            end
+          end
+        ]
+      end
     end
 
     private
@@ -222,6 +308,22 @@ module TablerUi
 
     def check_boxes_input(method, options = {})
       collection_of(:check_boxes, method, options)
+    end
+
+    # Date picker input - explicit datepicker with Stimulus controller
+    def date_picker_input(method, options = {})
+      form_group(method, options) do
+        safe_join [
+          (label_with_description(method, options) unless options[:label] == false),
+          text_field(method,
+                     merge_input_options(
+                       { class: "form-control #{'is-invalid' if has_error?(method)}",
+                         data: { controller: 'tabler-ui--datepicker' },
+                         autocomplete: 'off' },
+                       options[:input_html]
+                     ))
+        ]
+      end
     end
 
     def string_field(method, options = {})
