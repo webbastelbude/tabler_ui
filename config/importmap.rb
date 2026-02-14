@@ -1,8 +1,6 @@
 # Tabler UI Importmap Configuration
 # This file is automatically loaded by Rails when the gem is used
-
-pin '@hotwired/stimulus', to: 'stimulus.min.js'
-pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js'
+# Stimulus is pinned by the host app, not here
 
 # Pin Tabler UI JavaScript
 pin 'tabler_ui', to: 'tabler_ui.js'
