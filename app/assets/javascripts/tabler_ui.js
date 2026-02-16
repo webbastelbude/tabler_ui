@@ -8,8 +8,8 @@
  * (set by the host app's controllers/application.js).
  */
 
-import "./tabler_ui/tabler.js"
-import "./star-rating.js"
+import "tabler_ui/tabler"
+import "star-rating.js"
 
 // Auto-register Stimulus controllers
 import DarkModeController from "controllers/tabler_ui/dark_mode_controller"
