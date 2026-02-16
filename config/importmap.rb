@@ -10,7 +10,7 @@ pin 'tabler_ui/tabler', to: 'tabler_ui/tabler.js'
 pin 'vanillajs-datepicker', to: 'https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js'
 
 # Pin star-rating.js (bundled with gem)
-pin 'star-rating.js', to: 'tabler_ui/star-rating.js'
+pin 'star-rating.js', to: 'star-rating.js'
 
 # Pin Tabler UI Stimulus controllers
 pin 'controllers/tabler_ui/dark_mode_controller', to: 'controllers/tabler_ui/dark_mode_controller.js'
