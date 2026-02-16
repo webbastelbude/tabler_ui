@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- ApexCharts 5.4.0 integration for data visualization (453 KB JS, 14.5 KB CSS)
+- Chart Stimulus controller for easy ApexCharts integration
+- Comprehensive ApexCharts documentation with examples in CLAUDE.md
+
 ## [0.2.0] - 2026-02-03
 
 ### Updated

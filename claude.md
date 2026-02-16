@@ -1335,9 +1335,238 @@ Diese Bibliothek arbeitet komplementär zum bestehenden `dark_mode_controller.js
 Der bestehende Dark Mode Controller nutzt diese Funktionalität automatisch.
 Keine zusätzliche Konfiguration erforderlich.
 
+## ApexCharts Integration
+
+Das Gem enthält **ApexCharts 5.4.0** für moderne, interaktive Datenvisualisierung.
+
+### Setup
+
+**CSS einbinden** in `application.css`:
+```css
+/*
+ *= require apexcharts
+ */
+```
+
+**JavaScript importieren** in `application.js`:
+```javascript
+import "apexcharts"
+```
+
+### Verwendung mit Stimulus Controller
+
+Der einfachste Weg ist über den mitgelieferten Stimulus Controller:
+
+```erb
+<div data-controller="tabler-ui--chart"
+     data-tabler-ui--chart-type-value="line"
+     data-tabler-ui--chart-height-value="350"
+     data-tabler-ui--chart-options-value='<%= {
+       series: [{
+         name: "Sales",
+         data: [30, 40, 45, 50, 49, 60, 70, 91]
+       }],
+       xaxis: {
+         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"]
+       }
+     }.to_json %>'></div>
+```
+
+### Chart-Typen
+
+Verfügbare Chart-Typen:
+- `line` - Liniendiagramm
+- `area` - Flächendiagramm
+- `bar` - Balkendiagramm
+- `pie` - Kreisdiagramm
+- `donut` - Ringdiagramm
+- `radialBar` - Radiales Balkendiagramm
+- `scatter` - Streudiagramm
+- `bubble` - Blasendiagramm
+- `heatmap` - Heatmap
+- `candlestick` - Kerzendiagramm
+
+### Beispiele
+
+#### Liniendiagramm
+
+```erb
+<div data-controller="tabler-ui--chart"
+     data-tabler-ui--chart-type-value="line"
+     data-tabler-ui--chart-options-value='<%= {
+       series: [{
+         name: "Umsatz",
+         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+       }],
+       xaxis: {
+         categories: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep"]
+       },
+       colors: ["#206bc4"],
+       stroke: {
+         curve: "smooth"
+       }
+     }.to_json %>'></div>
+```
+
+#### Balkendiagramm
+
+```erb
+<div data-controller="tabler-ui--chart"
+     data-tabler-ui--chart-type-value="bar"
+     data-tabler-ui--chart-options-value='<%= {
+       series: [{
+         name: "Verkäufe",
+         data: [44, 55, 41, 67, 22, 43]
+       }],
+       xaxis: {
+         categories: ["Produkt A", "Produkt B", "Produkt C", "Produkt D", "Produkt E", "Produkt F"]
+       },
+       colors: ["#206bc4"]
+     }.to_json %>'></div>
+```
+
+#### Kreisdiagramm
+
+```erb
+<div data-controller="tabler-ui--chart"
+     data-tabler-ui--chart-type-value="pie"
+     data-tabler-ui--chart-height-value="300"
+     data-tabler-ui--chart-options-value='<%= {
+       series: [44, 55, 13, 43, 22],
+       labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+       colors: ["#206bc4", "#4299e1", "#0ca678", "#f59f00", "#d63939"]
+     }.to_json %>'></div>
+```
+
+#### Flächendiagramm mit mehreren Serien
+
+```erb
+<div data-controller="tabler-ui--chart"
+     data-tabler-ui--chart-type-value="area"
+     data-tabler-ui--chart-options-value='<%= {
+       series: [
+         {
+           name: "Umsatz",
+           data: [31, 40, 28, 51, 42, 109, 100]
+         },
+         {
+           name: "Kosten",
+           data: [11, 32, 45, 32, 34, 52, 41]
+         }
+       ],
+       xaxis: {
+         categories: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
+       },
+       colors: ["#206bc4", "#d63939"],
+       fill: {
+         type: "gradient",
+         gradient: {
+           shadeIntensity: 1,
+           opacityFrom: 0.7,
+           opacityTo: 0.3
+         }
+       }
+     }.to_json %>'></div>
+```
+
+### Manuelle Verwendung (ohne Controller)
+
+Falls Sie ApexCharts direkt verwenden möchten:
+
+```erb
+<div id="my-chart"></div>
+
+<script type="module">
+  import ApexCharts from 'apexcharts'
+
+  const options = {
+    chart: {
+      type: 'line',
+      height: 350
+    },
+    series: [{
+      name: 'Sales',
+      data: [30, 40, 45, 50, 49, 60, 70, 91]
+    }],
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
+    }
+  }
+
+  const chart = new ApexCharts(document.querySelector("#my-chart"), options)
+  chart.render()
+</script>
+```
+
+### Responsive Charts
+
+ApexCharts ist standardmäßig responsive. Für spezielle Breakpoints:
+
+```ruby
+{
+  chart: {
+    type: 'line'
+  },
+  responsive: [
+    {
+      breakpoint: 480,
+      options: {
+        chart: {
+          height: 300
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  ]
+}
+```
+
+### Dark Mode Support
+
+ApexCharts erkennt automatisch das Tabler Dark Mode Theme:
+
+```ruby
+{
+  chart: {
+    type: 'line'
+  },
+  theme: {
+    mode: 'dark'  # oder 'light'
+  }
+}
+```
+
+### Dynamisches Update via Stimulus
+
+Der Chart Controller bietet Methoden zum dynamischen Update:
+
+```javascript
+// In einem anderen Stimulus Controller
+updateChart() {
+  const chartController = this.application.getControllerForElementAndIdentifier(
+    document.querySelector('[data-controller~="tabler-ui--chart"]'),
+    'tabler-ui--chart'
+  )
+
+  // Update Series
+  chartController.updateSeries([{
+    name: "New Data",
+    data: [10, 20, 30, 40]
+  }])
+
+  // Update Options
+  chartController.updateOptions({
+    colors: ['#f59f00']
+  })
+}
+```
+
 ## Weiterführende Ressourcen
 
 - [Tabler UI Dokumentation](https://tabler.io/)
+- [ApexCharts Dokumentation](https://apexcharts.com/)
 - [Star Rating JS Dokumentation](https://github.com/niksd1/star-rating.js)
 - [Stimulus Handbook](https://stimulus.hotwired.dev/)
 - [Rails Form Helpers Guide](https://guides.rubyonrails.org/form_helpers.html)

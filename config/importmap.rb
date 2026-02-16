@@ -12,7 +12,11 @@ pin 'vanillajs-datepicker', to: 'https://cdn.jsdelivr.net/npm/vanillajs-datepick
 # Pin star-rating.js (bundled with gem)
 pin 'star-rating.js', to: 'star-rating.js'
 
+# Pin ApexCharts (bundled with gem)
+pin 'apexcharts', to: 'apexcharts.js'
+
 # Pin Tabler UI Stimulus controllers
+pin 'controllers/tabler_ui/chart_controller', to: 'controllers/tabler_ui/chart_controller.js'
 pin 'controllers/tabler_ui/dark_mode_controller', to: 'controllers/tabler_ui/dark_mode_controller.js'
 pin 'controllers/tabler_ui/datepicker_controller', to: 'controllers/tabler_ui/datepicker_controller.js'
 pin 'controllers/tabler_ui/dropdown_controller', to: 'controllers/tabler_ui/dropdown_controller.js'

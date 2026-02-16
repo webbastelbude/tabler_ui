@@ -67,6 +67,35 @@ Usage:
 
 Over 260 country flags available as SVG sprites.
 
+### Optional: ApexCharts for Data Visualization
+
+For interactive charts and data visualization, add to your `app/assets/stylesheets/application.css`:
+
+```css
+/*
+ *= require apexcharts
+ */
+```
+
+And import in `app/javascript/application.js`:
+
+```javascript
+import "apexcharts"
+```
+
+Usage with Stimulus:
+
+```erb
+<div data-controller="tabler-ui--chart"
+     data-tabler-ui--chart-type-value="line"
+     data-tabler-ui--chart-options-value='<%= {
+       series: [{ name: "Sales", data: [30, 40, 45, 50, 49, 60, 70, 91] }],
+       xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"] }
+     }.to_json %>'></div>
+```
+
+See CLAUDE.md for comprehensive ApexCharts documentation and examples.
+
 ### Stimulus Controllers
 
 If you want to use Tabler UI's Stimulus controllers, import them in your `app/javascript/controllers/index.js`:

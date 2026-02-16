@@ -19,8 +19,10 @@ module TablerUi
         tabler_ui/datepicker.css
         tabler_ui/navbar.css
         star-rating.css star-rating.js
+        apexcharts.css apexcharts.js
         tabler_ui/addons/*.css
         tabler_ui/flags/**/*.svg
+        controllers/tabler_ui/chart_controller.js
         controllers/tabler_ui/dark_mode_controller.js
         controllers/tabler_ui/datepicker_controller.js
         controllers/tabler_ui/dropdown_controller.js
