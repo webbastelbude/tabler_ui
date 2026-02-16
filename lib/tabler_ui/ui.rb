@@ -26,23 +26,18 @@ module TablerUi
     # @return [String] Rendered HTML output
     def method_missing(name, *args, **kwargs, &block)
       klass_name = "TablerUi::#{name.to_s.camelize}::Component"
-      Rails.logger.debug "TablerUI: Looking for #{klass_name}"
       component_class = klass_name.safe_constantize
 
       if component_class
-        Rails.logger.debug "TablerUI: Found #{component_class}"
-
         # Check if component expects keyword arguments (modern pattern)
         # or view_context as first argument (legacy pattern)
         init_method = component_class.instance_method(:initialize)
 
         if init_method.parameters.any? { |type, _| type == :keyreq || type == :key }
           # Modern pattern: component expects keyword arguments
-          Rails.logger.debug "TablerUI: Using keyword arguments pattern"
           component = component_class.new(**kwargs)
         else
           # Legacy pattern: component expects view_context
-          Rails.logger.debug "TablerUI: Using view_context pattern"
           object = args.first
           object = OpenStruct.new(kwargs) if object.nil? && kwargs.any?
           object = OpenStruct.new(object) if object.is_a?(Hash)
@@ -51,7 +46,6 @@ module TablerUi
           inject_data(component, object) if object.present?
         end
       else
-        Rails.logger.debug "TablerUI: Not found #{klass_name}, using partial"
         object = args.first
         object = OpenStruct.new(kwargs) if object.nil? && kwargs.any?
         object = OpenStruct.new(object) if object.is_a?(Hash)
