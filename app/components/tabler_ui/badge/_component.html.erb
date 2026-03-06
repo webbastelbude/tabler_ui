@@ -1,0 +1,24 @@
+<%# Tabler UI Badge Component %>
+<% if badge.link? %>
+  <a href="<%= badge.url %>" class="<%= badge.badge_classes %>">
+    <% if badge.has_icon? %>
+      <%= tabler_ui.icon(icon: badge.icon).html_safe %>
+    <% end %>
+    <% if badge.content.present? %>
+      <%= badge.content.html_safe %>
+    <% elsif badge.has_text? %>
+      <%= badge.text %>
+    <% end %>
+  </a>
+<% else %>
+  <span class="<%= badge.badge_classes %>">
+    <% if badge.has_icon? %>
+      <%= tabler_ui.icon(icon: badge.icon).html_safe %>
+    <% end %>
+    <% if badge.content.present? %>
+      <%= badge.content.html_safe %>
+    <% elsif badge.has_text? %>
+      <%= badge.text %>
+    <% end %>
+  </span>
+<% end %>

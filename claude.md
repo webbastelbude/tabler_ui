@@ -716,6 +716,172 @@ Labels mit zusätzlichen Informationen:
 2. Prüfen Sie, ob der Attributname korrekt ist
 3. Verwenden Sie `@user.errors.full_messages` zum Debuggen
 
+## Badge Komponente
+
+Die Badge-Komponente zeigt kleine Labels, Zähler und Status-Indikatoren an.
+
+### Basis Verwendung
+
+```erb
+<!-- Einfaches Badge -->
+<%= tabler_ui.badge text: "New", color: "blue" %>
+
+<!-- Badge ohne Farbe (Standard grau) -->
+<%= tabler_ui.badge text: "Default" %>
+```
+
+### Farb-Varianten
+
+Verfügbare Farben: `blue`, `azure`, `indigo`, `purple`, `pink`, `red`, `orange`, `yellow`, `lime`, `green`, `teal`, `cyan`, `primary`, `secondary`, `success`, `danger`, `warning`, `info`
+
+```erb
+<%= tabler_ui.badge text: "Blue", color: "blue" %>
+<%= tabler_ui.badge text: "Red", color: "red" %>
+<%= tabler_ui.badge text: "Green", color: "green" %>
+<%= tabler_ui.badge text: "Yellow", color: "yellow" %>
+```
+
+### Light Varianten
+
+Dezentere Darstellung mit hellem Hintergrund:
+
+```erb
+<%= tabler_ui.badge text: "Blue", color: "blue", light: true %>
+<%= tabler_ui.badge text: "Red", color: "red", light: true %>
+<%= tabler_ui.badge text: "Green", color: "green", light: true %>
+```
+
+### Pill Badges (abgerundet)
+
+```erb
+<%= tabler_ui.badge text: "1", color: "blue", pill: true %>
+<%= tabler_ui.badge text: "12", color: "red", pill: true %>
+<%= tabler_ui.badge text: "New", color: "green", pill: true %>
+```
+
+### Größen
+
+```erb
+<!-- Klein -->
+<%= tabler_ui.badge text: "Small", color: "primary", size: :sm %>
+
+<!-- Standard -->
+<%= tabler_ui.badge text: "Default", color: "primary" %>
+
+<!-- Groß -->
+<%= tabler_ui.badge text: "Large", color: "primary", size: :lg %>
+```
+
+### Notification Dot (leer)
+
+```erb
+<!-- Einfacher Notification-Punkt -->
+<%= tabler_ui.badge color: "red", notification: true %>
+
+<!-- Blinkender Notification-Punkt -->
+<%= tabler_ui.badge color: "red", notification: true, blink: true %>
+
+<!-- Notification mit Zahl -->
+<%= tabler_ui.badge text: "4", color: "red", notification: true %>
+```
+
+### Mit Icon
+
+```erb
+<%= tabler_ui.badge text: "Star", color: "yellow", icon: "star" %>
+<%= tabler_ui.badge text: "Heart", color: "red", icon: "heart" %>
+<%= tabler_ui.badge text: "Settings", color: "blue", icon: "settings" %>
+```
+
+### Badge als Link
+
+```erb
+<%= tabler_ui.badge text: "Click me", color: "blue", url: "/path" %>
+<%= tabler_ui.badge text: "Blue", color: "blue", light: true, url: "#" %>
+```
+
+### Badge auf Buttons
+
+```erb
+<button class="btn">
+  Notifications <%= tabler_ui.badge text: "2", color: "red", custom_class: "ms-2" %>
+</button>
+
+<button class="btn">
+  Inbox <%= tabler_ui.badge text: "4", color: "red", notification: true %>
+</button>
+```
+
+### Mit Block-Content
+
+```erb
+<%= tabler_ui.badge color: "green" do %>
+  <strong>Custom</strong> content
+<% end %>
+```
+
+### In Überschriften
+
+```erb
+<h1>Example heading <%= tabler_ui.badge text: "New" %></h1>
+<h2>Example heading <%= tabler_ui.badge text: "New" %></h2>
+```
+
+### Alle Optionen
+
+```erb
+<%= tabler_ui.badge
+  text: "Badge Text",       # Badge-Text
+  color: "blue",            # Farb-Variante
+  light: false,             # Light/Subtle Variante (default: false)
+  pill: false,              # Abgerundete Form (default: false)
+  notification: false,      # Notification-Dot Stil (default: false)
+  blink: false,             # Blink-Animation für Notifications (default: false)
+  icon: "star",             # Tabler Icon-Name (optional)
+  url: "/path",             # URL für Badge als Link (optional)
+  size: :sm,                # Größe: :sm oder :lg (optional)
+  custom_class: "my-class"  # Zusätzliche CSS-Klassen (optional)
+%>
+```
+
+### Beispiele aus der Praxis
+
+#### Status-Badges in einer Tabelle
+
+```erb
+<td>
+  <% case user.status %>
+  <% when "active" %>
+    <%= tabler_ui.badge text: "Aktiv", color: "green", light: true %>
+  <% when "pending" %>
+    <%= tabler_ui.badge text: "Ausstehend", color: "yellow", light: true %>
+  <% when "inactive" %>
+    <%= tabler_ui.badge text: "Inaktiv", color: "red", light: true %>
+  <% end %>
+</td>
+```
+
+#### Notification-Badge auf Navigation-Icon
+
+```erb
+<a href="/notifications" class="btn btn-icon position-relative">
+  <%= tabler_ui.icon icon: "bell" %>
+  <% if unread_count > 0 %>
+    <%= tabler_ui.badge text: unread_count.to_s, color: "red", notification: true %>
+  <% end %>
+</a>
+```
+
+#### Tag-Liste
+
+```erb
+<div class="d-flex gap-1">
+  <% @article.tags.each do |tag| %>
+    <%= tabler_ui.badge text: tag.name, color: "blue", light: true, pill: true %>
+  <% end %>
+</div>
+```
+
 ## Alert Komponente
 
 Die Alert-Komponente zeigt kontextuelle Feedback-Nachrichten an.
