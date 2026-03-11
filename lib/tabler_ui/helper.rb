@@ -37,9 +37,9 @@ module TablerUi
       form_with(**options, &block)
     end
 
-    def tabler_ui_form_for(**options, &block)
+    def tabler_ui_form_for(record, options = {}, &block)
       options[:builder] ||= TablerUi::FormBuilder
-      form_with(**options, &block)
+      form_for(record, options, &block)
     end
   end
 end
