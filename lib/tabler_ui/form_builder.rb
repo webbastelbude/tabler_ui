@@ -109,6 +109,10 @@ module TablerUi
       end
     end
 
+    def toggle_button(method, options = {})
+      toggle_button_input(method, options)
+    end
+
     private
 
     def form_group(method, options = {}, &block)
@@ -354,6 +358,58 @@ module TablerUi
             tag.span(options[:label] || method.to_s.humanize, class: 'form-check-label')
           ]
         end
+      end
+    end
+
+    # Toggle button input - boolean as clickable button (filled when active, ghost when inactive)
+    def toggle_button_input(method, options = {})
+      color = options.fetch(:color, "primary")
+      button_text = options.fetch(:text, method.to_s.humanize)
+      icon_name = options[:icon]
+      size = options[:size]
+      custom_class = options[:custom_class]
+
+      checked = @object.respond_to?(method) ? !!@object.send(method) : false
+
+      btn_classes = ["btn"]
+      btn_classes << "btn-#{size}" if size
+      btn_classes << (checked ? "btn-#{color}" : "btn-ghost-#{color}")
+      btn_classes << custom_class if custom_class
+
+      icon_html = icon_name ? @template.tabler_ui.icon(icon: icon_name) : nil
+
+      button_content = if icon_html && button_text.present?
+                         safe_join([icon_html, " #{button_text}"])
+                       elsif icon_html
+                         icon_html
+                       else
+                         button_text
+                       end
+
+      form_group(method, options) do
+        safe_join [
+          (label_with_description(method, options) unless options[:label] == false),
+          tag.div(data: {
+            controller: "tabler-ui--toggle-button",
+            "tabler-ui--toggle-button-color-value": color
+          }) do
+            safe_join [
+              check_box(method,
+                        merge_input_options(
+                          { class: "d-none",
+                            data: { "tabler-ui--toggle-button-target": "checkbox" } },
+                          options[:input_html]
+                        ), "1", "0"),
+              tag.button(button_content,
+                         type: "button",
+                         class: btn_classes.join(" "),
+                         data: {
+                           "tabler-ui--toggle-button-target": "button",
+                           action: "click->tabler-ui--toggle-button#toggle"
+                         })
+            ]
+          end
+        ].compact
       end
     end
 

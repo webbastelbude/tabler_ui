@@ -182,6 +182,38 @@ Moderne Toggle Switches für bessere UX:
 <%= f.input :newsletter, as: :toggle %>
 ```
 
+#### Toggle Button (Boolean als Button)
+
+Stellt ein Boolean-Feld als klickbaren Button dar. Aktiv = gefüllter Button (`btn-{color}`), inaktiv = Ghost-Button (`btn-ghost-{color}`). Im Hintergrund wird eine versteckte Checkbox ein-/ausgeschaltet.
+
+```erb
+<!-- Standard -->
+<%= f.input :featured, as: :toggle_button %>
+<%= f.toggle_button :featured %>
+
+<!-- Mit Farbe und Text -->
+<%= f.toggle_button :active, color: "success", text: "Aktiv" %>
+
+<!-- Mit Icon -->
+<%= f.toggle_button :favorite, color: "danger", text: "Favorit", icon: "heart" %>
+
+<!-- Klein -->
+<%= f.toggle_button :pinned, color: "warning", size: :sm %>
+
+<!-- Ohne Label -->
+<%= f.toggle_button :featured, label: false %>
+```
+
+Verfügbare Optionen:
+- `color` - Tabler Farbe (default: `"primary"`)
+- `text` - Button-Text (default: humanized method name)
+- `icon` - Tabler Icon-Name (optional)
+- `size` - `:sm` oder `:lg` (optional)
+- `custom_class` - Zusätzliche CSS-Klassen (optional)
+- `label` - Label-Text oder `false`
+- `hint` - Hint-Text
+- `input_html` - Extra HTML-Attribute für die Checkbox
+
 #### Color Input
 
 Farb-Auswahl mit visuellen Farbfeldern:

@@ -22,3 +22,4 @@ pin 'controllers/tabler_ui/datepicker_controller', to: 'controllers/tabler_ui/da
 pin 'controllers/tabler_ui/dropdown_controller', to: 'controllers/tabler_ui/dropdown_controller.js'
 pin 'controllers/tabler_ui/filter_controller', to: 'controllers/tabler_ui/filter_controller.js'
 pin 'controllers/tabler_ui/rating_controller', to: 'controllers/tabler_ui/rating_controller.js'
+pin 'controllers/tabler_ui/toggle_button_controller', to: 'controllers/tabler_ui/toggle_button_controller.js'

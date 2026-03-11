@@ -17,6 +17,7 @@ import DatepickerController from "controllers/tabler_ui/datepicker_controller"
 import DropdownController from "controllers/tabler_ui/dropdown_controller"
 import FilterController from "controllers/tabler_ui/filter_controller"
 import RatingController from "controllers/tabler_ui/rating_controller"
+import ToggleButtonController from "controllers/tabler_ui/toggle_button_controller"
 
 if (window.Stimulus) {
   const app = window.Stimulus
@@ -25,4 +26,5 @@ if (window.Stimulus) {
   app.register("tabler-ui--dropdown", DropdownController)
   app.register("tabler-ui--filter", FilterController)
   app.register("tabler-ui--rating", RatingController)
+  app.register("tabler-ui--toggle-button", ToggleButtonController)
 }
