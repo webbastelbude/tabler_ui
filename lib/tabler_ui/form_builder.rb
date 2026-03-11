@@ -115,6 +115,23 @@ module TablerUi
 
     private
 
+    def normalize_collection(collection, value_method, text_method)
+      case collection
+      when Hash
+        collection.map { |text, value| OpenStruct.new(text: text, value: value) }
+      when Array
+        if collection.first.is_a?(Array)
+          collection.map { |text, value| OpenStruct.new(text: text, value: value) }
+        elsif value_method != :to_s && collection.first.respond_to?(value_method)
+          collection
+        else
+          collection
+        end
+      else
+        collection
+      end
+    end
+
     def form_group(method, options = {}, &block)
       tag.div class: "mb-3 #{method}" do
         safe_join [
@@ -221,12 +238,17 @@ module TablerUi
     def select_input(method, options = {})
       value_method = options[:value_method] || :to_s
       text_method = options[:text_method] || :to_s
-      input_options = options[:input_html] || {}
+      collection = options[:collection]
 
-      input_options[:multiple]
+      normalized = normalize_collection(collection, value_method, text_method)
+      if normalized != collection
+        collection = normalized
+        value_method = :value
+        text_method = :text
+      end
 
       collection_input(method, options) do
-        collection_select(method, options[:collection], value_method, text_method, options,
+        collection_select(method, collection, value_method, text_method, options,
                           merge_input_options({ class: "form-select #{if has_error?(method)
                                                                         'is-invalid'
                                                                       end}" }, options[:input_html]))
@@ -267,15 +289,26 @@ module TablerUi
       # Use selectgroup styling if specified
       use_selectgroup = options[:selectgroup] || options[:selectgroup_pills] || options[:selectgroup_buttons]
 
+      value_method = options[:value_method] || :to_s
+      text_method = options[:text_method] || :to_s
+      collection = options[:collection]
+
+      normalized = normalize_collection(collection, value_method, text_method)
+      if normalized != collection
+        collection = normalized
+        value_method = :value
+        text_method = :text
+      end
+
       form_group(method, options) do
         safe_join [
           (label_with_description(method, options) unless options[:label] == false),
           if use_selectgroup
-            selectgroup_collection(form_builder_method, method, options, input_builder_method)
+            selectgroup_collection(form_builder_method, method, collection, value_method, text_method, options, input_builder_method)
           else
             tag.div(class: 'form-selectgroup') do
-              send(form_builder_method, method, options[:collection], options[:value_method],
-                   options[:text_method]) do |b|
+              send(form_builder_method, method, collection, value_method,
+                   text_method) do |b|
                 tag.label(class: check_class) do
                   safe_join [
                     b.send(input_builder_method, class: 'form-check-input'),
@@ -289,13 +322,13 @@ module TablerUi
       end
     end
 
-    def selectgroup_collection(form_builder_method, method, options, input_builder_method)
+    def selectgroup_collection(form_builder_method, method, collection, value_method, text_method, options, input_builder_method)
       selectgroup_class = ['form-selectgroup']
       selectgroup_class << 'form-selectgroup-pills' if options[:selectgroup_pills]
       selectgroup_class << 'form-selectgroup-boxes' if options[:selectgroup_buttons]
 
       tag.div(class: selectgroup_class.join(' ')) do
-        send(form_builder_method, method, options[:collection], options[:value_method], options[:text_method]) do |b|
+        send(form_builder_method, method, collection, value_method, text_method) do |b|
           tag.label(class: 'form-selectgroup-item') do
             safe_join [
               b.send(input_builder_method, class: 'form-selectgroup-input'),
