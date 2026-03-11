@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox", "button"]
+  static targets = ["input", "button"]
   static values = {
     color: { type: String, default: "primary" }
   }
@@ -11,17 +11,18 @@ export default class extends Controller {
   }
 
   toggle() {
-    this.checkboxTarget.checked = !this.checkboxTarget.checked
-    this.checkboxTarget.dispatchEvent(new Event("change", { bubbles: true }))
+    const checked = this.inputTarget.value === "1"
+    this.inputTarget.value = checked ? "0" : "1"
+    this.inputTarget.dispatchEvent(new Event("change", { bubbles: true }))
     this.updateAppearance()
   }
 
   updateAppearance() {
-    const checked = this.checkboxTarget.checked
+    const checked = this.inputTarget.value === "1"
     const btn = this.buttonTarget
     const color = this.colorValue
 
-    btn.classList.remove(`btn-${color}`, `btn-ghost-${color}`)
-    btn.classList.add(checked ? `btn-${color}` : `btn-ghost-${color}`)
+    btn.classList.remove(`btn-${color}`, `btn-outline-${color}`)
+    btn.classList.add(checked ? `btn-${color}` : `btn-outline-${color}`)
   }
 }

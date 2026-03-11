@@ -373,7 +373,7 @@ module TablerUi
 
       btn_classes = ["btn"]
       btn_classes << "btn-#{size}" if size
-      btn_classes << (checked ? "btn-#{color}" : "btn-ghost-#{color}")
+      btn_classes << (checked ? "btn-#{color}" : "btn-outline-#{color}")
       btn_classes << custom_class if custom_class
 
       icon_html = icon_name ? @template.tabler_ui.icon(icon: icon_name) : nil
@@ -394,12 +394,12 @@ module TablerUi
             "tabler-ui--toggle-button-color-value": color
           }) do
             safe_join [
-              check_box(method,
-                        merge_input_options(
-                          { class: "d-none",
-                            data: { "tabler-ui--toggle-button-target": "checkbox" } },
-                          options[:input_html]
-                        ), "1", "0"),
+              hidden_field(method,
+                           merge_input_options(
+                             { value: checked ? "1" : "0",
+                               data: { "tabler-ui--toggle-button-target": "input" } },
+                             options[:input_html]
+                           )),
               tag.button(button_content,
                          type: "button",
                          class: btn_classes.join(" "),
