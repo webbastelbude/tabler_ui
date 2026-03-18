@@ -113,6 +113,10 @@ module TablerUi
       toggle_button_input(method, options)
     end
 
+    def toggle_switch(method, options = {})
+      toggle_switch_input(method, options)
+    end
+
     private
 
     def normalize_collection(collection, value_method, text_method)
@@ -394,7 +398,37 @@ module TablerUi
       end
     end
 
-    # Toggle button input - boolean as clickable button (filled when active, ghost when inactive)
+    # Toggle switch - styled switch with label and optional description
+    def toggle_switch_input(method, options = {})
+      switch_label = options[:label] == false ? nil : (options[:label] || method.to_s.humanize)
+      description = options[:description]
+      reverse = options[:reverse]
+      size = options[:size]
+
+      switch_classes = ["form-check", "form-switch"]
+      switch_classes << "form-check-reverse" if reverse
+      switch_classes << "form-switch-lg" if size == :lg
+
+      form_group(method, options.merge(label: false)) do
+        tag.label(class: switch_classes.join(" ")) do
+          safe_join [
+            check_box(method, merge_input_options({ class: "form-check-input" }, options[:input_html])),
+            if description
+              tag.span(class: "form-check-label") do
+                safe_join [
+                  switch_label,
+                  tag.span(description, class: "form-check-description")
+                ]
+              end
+            elsif switch_label
+              tag.span(switch_label, class: "form-check-label")
+            end
+          ].compact
+        end
+      end
+    end
+
+    # Toggle button input - boolean as clickable button (filled when active, outline when inactive)
     def toggle_button_input(method, options = {})
       color = options.fetch(:color, "primary")
       button_text = options.fetch(:text, method.to_s.humanize)
