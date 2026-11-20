@@ -1,0 +1,19 @@
+<%# Tabler UI Modal Component %>
+<div class="<%= modal.modal_classes %>" id="<%= modal.id %>" tabindex="-1" aria-labelledby="<%= modal.id %>-title" aria-hidden="true"<% if modal.static %> data-bs-backdrop="static" data-bs-keyboard="false"<% end %>>
+  <div class="<%= modal.dialog_classes %>" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="<%= modal.id %>-title"><%= modal.title %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+      </div>
+      <div class="modal-body">
+        <%= capture(&modal.body_block) if modal.body_block %>
+      </div>
+      <% if modal.footer_block %>
+        <div class="modal-footer">
+          <%= capture(&modal.footer_block) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

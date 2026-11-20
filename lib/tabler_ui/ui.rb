@@ -55,12 +55,12 @@ module TablerUi
       if block
         slot_context = SlotContext.new(@view)
 
-        # Check if component has methods like 'add', 'left', 'right', 'buttons', 'actions', 'item', 'tab'
+        # Check if component has methods like 'add', 'left', 'right', 'buttons', 'actions', 'item', 'tab', 'footer'
         # If so, use the component itself for the block, otherwise use SlotContext
         if component.respond_to?(:add) || component.respond_to?(:left) ||
            component.respond_to?(:right) || component.respond_to?(:buttons) ||
            component.respond_to?(:actions) || component.respond_to?(:item) ||
-           component.respond_to?(:tab)
+           component.respond_to?(:tab) || component.respond_to?(:footer)
           # Component has its own methods for building content
           @view.capture(component, &block)
           render_component(name, component, nil)

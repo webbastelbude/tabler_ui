@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `modal` component (Bootstrap modal with `body`/`footer` slots, sizes, static backdrop)
 - `switch` component (Tabler `form-switch`) with optional auto-submitting form (`url:`) and Stimulus controller `tabler-ui--switch`
 - ApexCharts 5.4.0 integration for data visualization (453 KB JS, 14.5 KB CSS)
 - Chart Stimulus controller for easy ApexCharts integration
