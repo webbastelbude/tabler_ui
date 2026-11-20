@@ -1,0 +1,28 @@
+<%# Toggle-Schalter, siehe TablerUi::Switch::Component %>
+<% switch_markup = capture do %>
+  <label class="<%= switch.label_classes %>" <%= "title=\"#{ERB::Util.html_escape(switch.title)}\"".html_safe if switch.title.present? %>>
+    <% unless switch.unchecked_value.nil? %>
+      <%= hidden_field_tag switch.name, switch.unchecked_value, id: nil, disabled: switch.disabled %>
+    <% end %>
+    <%= check_box_tag switch.name, switch.value, switch.checked,
+          id: switch.id, class: "form-check-input",
+          disabled: switch.disabled, data: switch.input_data %>
+    <% if switch.label.present? || switch.description.present? %>
+      <span class="form-check-label">
+        <%= switch.label %>
+        <% if switch.description.present? %>
+          <small class="d-block text-muted"><%= switch.description %></small>
+        <% end %>
+      </span>
+    <% end %>
+  </label>
+<% end %>
+
+<% if switch.auto_submit? %>
+  <%= form_with url: switch.url, method: switch.http_method, class: "d-inline-block m-0",
+        data: { controller: "tabler-ui--switch", turbo_frame: "_top" } do %>
+    <%= switch_markup %>
+  <% end %>
+<% else %>
+  <%= switch_markup %>
+<% end %>

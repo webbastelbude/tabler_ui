@@ -282,6 +282,28 @@ Data tables with sorting and actions:
   - Block - Custom cell rendering
 - `data(collection)` - Set data source
 
+#### 8. Switch
+
+Toggle switch (Tabler `form-switch`), as a plain form field or as a self-submitting toggle:
+
+```erb
+<%# Plain checkbox switch inside a form %>
+<%= tabler_ui.switch name: "user[newsletter]", checked: @user.newsletter?, label: "Newsletter" %>
+
+<%# Toggle that submits its own form when flipped %>
+<%= tabler_ui.switch name: "domain[disabled]", checked: !domain.disabled?,
+                     value: "0", unchecked_value: "1",
+                     url: toggle_path, method: :patch, label: "Aktiv" %>
+```
+
+**Options:**
+- `name` - Field name (required)
+- `checked` - Switch on? (default: false)
+- `label` / `description` - Text next to the switch
+- `value` / `unchecked_value` - Submitted values for on / off (default "1" / "0"; `unchecked_value: nil` sends nothing when off)
+- `url` / `method` - Wraps the switch in its own form and submits on change (needs the `tabler-ui--switch` Stimulus controller)
+- `disabled`, `title`, `id`, `class`
+
 ## Advanced Usage
 
 ### Using Slots
