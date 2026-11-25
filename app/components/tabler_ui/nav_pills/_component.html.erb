@@ -1,0 +1,35 @@
+<%# Tabler UI NavPills Component %>
+<% if nav_pills.any? %>
+  <% pills = capture do %>
+    <ul class="<%= nav_pills.nav_classes %>">
+      <% nav_pills.items.each do |item| %>
+        <li class="nav-item">
+          <a href="<%= item.url %>" class="nav-link<%= ' active' if item.active %>" <%= tag.attributes(data: item.data, aria: { current: (item.active ? "page" : nil) }) %>>
+            <% if item.icon.present? %>
+              <%= tabler_ui.icon(icon: item.icon, size: "sm", class: "me-1") %>
+            <% end %>
+            <%= item.title %>
+            <% unless item.badge.nil? %>
+              <%# Aktive Pille ist farbig gefuellt: Badge weiss, sonst helle Variante mit lesbarem Text %>
+              <% if item.active %>
+                <%= tabler_ui.badge text: item.badge.to_s, custom_class: "ms-2 bg-white text-primary" %>
+              <% else %>
+                <%= tabler_ui.badge text: item.badge.to_s, color: item.badge_color, light: true, custom_class: "ms-2" %>
+              <% end %>
+            <% end %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if nav_pills.card %>
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <%= pills %>
+      </div>
+    </div>
+  <% else %>
+    <%= pills %>
+  <% end %>
+<% end %>
