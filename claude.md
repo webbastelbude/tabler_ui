@@ -1236,7 +1236,7 @@ Alle Illustrationen sind in `light` und `dark` Varianten verfügbar:
 - `christmas-tree`, `christmas-gifts`, `christmas-fireplace`, `snowman`
 - `easter-bunny`, `easter-egg`, `halloween-pumpkin`
 - `valentines-day-gift`, `valentines-day-heart`, `valentines-day-love`
-- `new-year`, `new-year-2`
+- `new-year-2025`, `new-year-2025-2`, `new-year-2025-3`, `new-year-2026`, `new-year-2026-2`, `new-year-2026-3`
 
 **Sonstiges:**
 - `ai`, `archive`, `cat`, `dart`, `discount`, `fingerprint`, `flowers`
@@ -1476,13 +1476,13 @@ Verfügbare Typen:
 
 ## Tabler Framework Version
 
-Dieses Gem basiert auf **Tabler UI v1.4.0**.
+Dieses Gem basiert auf **Tabler UI v1.7.5** (Icons 3.53.0, Illustrations 1.19.0).
 
 ### Optionale Module
 
 #### Flags Add-on
 
-Länderflaggen für internationale Anwendungen (260+ Flaggen als SVG).
+Länderflaggen für internationale Anwendungen (310 Flaggen als SVG).
 
 **Aktivierung** in `application.css`:
 ```css
@@ -1535,7 +1535,7 @@ Keine zusätzliche Konfiguration erforderlich.
 
 ## ApexCharts Integration
 
-Das Gem enthält **ApexCharts 5.4.0** für moderne, interaktive Datenvisualisierung.
+Das Gem enthält **ApexCharts 7.0.0** für moderne, interaktive Datenvisualisierung.
 
 ### Setup
 

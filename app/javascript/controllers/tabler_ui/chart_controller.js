@@ -12,7 +12,8 @@ export default class extends Controller {
 
   connect() {
     import("apexcharts").then((module) => {
-      this.ApexCharts = module.default || module
+      // Die UMD-Build exportiert nichts per ESM, sondern setzt window.ApexCharts
+      this.ApexCharts = module.default || window.ApexCharts
       this.initChart()
     }).catch((error) => {
       console.error("Failed to load ApexCharts:", error)

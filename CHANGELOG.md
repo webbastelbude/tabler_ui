@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Updated
+- Tabler UI Framework v1.4.0 → v1.7.5 (CSS, JS, `tabler-theme.js`, source map, flags add-on CSS)
+- Tabler Icons 3.53.0 (outline + filled); a few icons were removed/renamed upstream (e.g. `mood-confuzed` → `mood-confused`, `seeding`, `currency-rubel`, `sport-billard`, `ikosaedr`)
+- Tabler Illustrations 1.19.0 (light + dark); `new-year`/`new-year-2` replaced by `new-year-2025*`/`new-year-2026*`
+- Flag SVGs: 260 → 310
+- Star Rating JS + CSS replaced with the minified build from the Tabler 1.7.5 package (with an added `export default StarRating` so `import("star-rating.js")` returns the constructor)
+- ApexCharts 5.4.0 → 7.0.0 (JS + CSS); `tabler-ui--chart` controller falls back to `window.ApexCharts` because the UMD build has no ESM default export
+
 ### Added
 - `nav_pills` component (link-based Tabler pills, optional card wrapper, icon and badge per item, `data:` for Turbo Frames)
 - `modal` component (Bootstrap modal with `body`/`footer` slots, sizes, static backdrop)
 - `switch` component (Tabler `form-switch`) with optional auto-submitting form (`url:`) and Stimulus controller `tabler-ui--switch`
-- ApexCharts 5.4.0 integration for data visualization (453 KB JS, 14.5 KB CSS)
+- ApexCharts integration for data visualization
 - Chart Stimulus controller for easy ApexCharts integration
 - Comprehensive ApexCharts documentation with examples in CLAUDE.md
 
