@@ -146,6 +146,16 @@ module TablerUi
       end
     end
 
+    # Label aus den I18n-Übersetzungen des Models (activerecord.attributes.<model>.<attr>);
+    # Fallback ist String#humanize, wie ActiveRecord::Base.human_attribute_name selbst.
+    def attribute_label(method)
+      if object.respond_to?(:class) && object.class.respond_to?(:human_attribute_name)
+        object.class.human_attribute_name(method)
+      else
+        method.to_s.humanize
+      end
+    end
+
     def hint_text(text)
       return if text.nil?
 
@@ -153,7 +163,7 @@ module TablerUi
     end
 
     def label_with_description(method, options = {})
-      label_text = options[:label] || method.to_s.humanize
+      label_text = options[:label] || attribute_label(method)
       description = options[:label_description]
       required = options[:required]
 
@@ -224,7 +234,7 @@ module TablerUi
         tag.label(class: 'form-check') do
           safe_join [
             check_box(method, merge_input_options({ class: 'form-check-input' }, options[:input_html])),
-            tag.span(options[:label] || method.to_s.humanize, class: 'form-check-label')
+            tag.span(options[:label] || attribute_label(method), class: 'form-check-label')
           ]
         end
       end
@@ -392,7 +402,7 @@ module TablerUi
         tag.label(class: 'form-check form-switch') do
           safe_join [
             check_box(method, merge_input_options({ class: 'form-check-input' }, options[:input_html])),
-            tag.span(options[:label] || method.to_s.humanize, class: 'form-check-label')
+            tag.span(options[:label] || attribute_label(method), class: 'form-check-label')
           ]
         end
       end
@@ -400,7 +410,7 @@ module TablerUi
 
     # Toggle switch - styled switch with label and optional description
     def toggle_switch_input(method, options = {})
-      switch_label = options[:label] == false ? nil : (options[:label] || method.to_s.humanize)
+      switch_label = options[:label] == false ? nil : (options[:label] || attribute_label(method))
       description = options[:description]
       reverse = options[:reverse]
       size = options[:size]
@@ -593,15 +603,15 @@ module TablerUi
             if input_type == :textarea
               text_area(method, merge_input_options({
                                                       class: "form-control #{'is-invalid' if has_error?(method)}",
-                                                      placeholder: options[:label] || method.to_s.humanize
+                                                      placeholder: options[:label] || attribute_label(method)
                                                     }, options[:input_html]))
             else
               text_field(method, merge_input_options({
                                                        class: "form-control #{'is-invalid' if has_error?(method)}",
-                                                       placeholder: options[:label] || method.to_s.humanize
+                                                       placeholder: options[:label] || attribute_label(method)
                                                      }, options[:input_html]))
             end,
-            label(method, options[:label] || method.to_s.humanize)
+            label(method, options[:label] || attribute_label(method))
           ]
         end
       end
